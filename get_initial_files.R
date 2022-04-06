@@ -61,6 +61,20 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   OutDataFile$fleetinfo2 = t(data.frame(units = OutDataFile$units_of_catch, need_catch_mult = 0))
   OutDataFile$max_combined_lbin = rep(myDataFile$max_combined_lbin, times = OutDataFile$Nfleets)
   
+  if(myDataFile$do_tags == 1) {
+    
+    OutDataFile$do_tags = myDataFile$do_tags
+    OutDataFile$N_tag_groups = myDataFile$N_tag_groups
+    OutDataFile$N_recap_events = myDataFile$N_recap_events
+    OutDataFile$mixing_latency_period = myDataFile$mixing_latency_period
+    OutDataFile$max_periods = myDataFile$max_periods
+    OutDataFile$tag_releases = myDataFile$tag_releases
+    OutDataFile$tag_recaps = myDataFile$tag_recaps
+    OutDataFile$tag_releases$yr = 1000 + OutDataFile$tag_releases$yr
+    OutDataFile$tag_recaps$yr = 1000 + OutDataFile$tag_recaps$yr
+    
+  }
+  
   # CONTROL FILE
   
   OutControlFile$N_areas = myDataFile$N_areas
@@ -69,6 +83,19 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   OutControlFile$recr_dist_read = myDataFile$N_areas
   OutControlFile$recr_dist_pattern = data.frame(GPattern = 1, month = 1, area = 1:myDataFile$N_areas, 
                                                 age = 0)
+  
+  if(myDataFile$N_areas > 1) OutControlFile$N_moveDef = 0
+  # firstAgeMove
+  # moveDef is df
+  
+  x_rep = c(rep(1, times = 23), myDataFile$N_areas, 1,1)
+  MGdf = OutControlFile$MG_parms
+  MGdf_new = MGdf %>% 
+                slice(rep(1:nrow(MGdf), times= x_rep))
+  OutControlFile$MG_parms = MGdf_new
+  
+  # Movement parameters after cohort growth deviation
+  
   OutControlFile$Q_options = data.frame(fleet = (myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys), 
                                         link = 0, link_info = 0, extra_se = 0, biasadj = 0, float = 0)
   rownames(OutControlFile$Q_options) = myDataFile$fleetnames[(myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys)]

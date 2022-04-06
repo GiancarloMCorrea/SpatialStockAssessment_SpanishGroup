@@ -12,17 +12,17 @@ source('get_initial_files.R')
 
 # -------------------------------------------------------------------------
 # Read data from Github:
-mydata = Rfssa::load_github_data(github_data_url = "https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_1area_observations_1_100_ESS_25.RData")
-type_data = '1area_25'
+mydata = Rfssa::load_github_data(github_data_url = "https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_4area_observations_1_100_ESS_25.RData")
+type_data = '4area_25'
 dir.create(path = type_data)
 
 # -------------------------------------------------------------------------
 # Selectivity parameters:
-selex_len = data.frame(Pattern = c(24,24,1,24,24,24,24,15),
+selex_len = data.frame(Pattern = c(rep(24,times = 3),1,1,1,1,rep(24,times = 9),15,15,15,15),
                              Discard = 0,
                              Male = 0,
-                             Special = c(0,0,0,0,0,0,0,3))
-selex_age = data.frame(Pattern = rep(0, times = 8),
+                             Special = c(rep(0, times= 16), 4,5,6,7))
+selex_age = data.frame(Pattern = rep(0, times = 20),
                              Discard = 0, Male = 0, Special = 0)
 selex_params_double = data.frame(LO   = c(5,-15,-15,-15,-15,-15),
                                  HI   = c(130,15,15,15,15,15),
@@ -36,10 +36,10 @@ selex_params_logistic = data.frame(LO = c(5,0),
                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
                                    env_var = 0, dev_link = 0, dev_minyr = 0,
                                    dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-selex_df = rbind(selex_params_double,selex_params_double,selex_params_logistic,
-                        selex_params_double,selex_params_double,selex_params_double,
-                        selex_params_double)
-
+selex_df = rbind(selex_params_double,selex_params_double,selex_params_double,selex_params_logistic,
+                 selex_params_logistic,selex_params_logistic,selex_params_logistic,selex_params_double,
+                 selex_params_double,selex_params_double,selex_params_double,selex_params_double,
+                 selex_params_double,selex_params_double,selex_params_double,selex_params_double)
 
 # -------------------------------------------------------------------------
 # Read template:
