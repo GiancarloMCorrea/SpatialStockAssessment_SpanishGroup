@@ -1,6 +1,8 @@
 # Clean workspace:
 rm(list = ls())
 
+# TODO: Add movement parameters
+
 # Set working directory
 mainDir = 'C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup'
 setwd(mainDir)
@@ -8,22 +10,26 @@ setwd(mainDir)
 # Libraries:
 require(r4ss)
 require(Rfssa)
+require(doSNOW)
+require(parallel)
 source('get_initial_files.R')
+nCoresRemain = 5
 
 # -------------------------------------------------------------------------
 # Read data from Github:
-mydata = Rfssa::load_github_data(github_data_url = "https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_4area_observations_1_100_ESS_25.RData")
-type_data = '4area_25'
+this_url = "https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_1area_observations_1_100_ESS_25.RData"
+mydata = Rfssa::load_github_data(github_data_url = this_url)
+type_data = '1area_25'
 dir.create(path = type_data)
 
 # -------------------------------------------------------------------------
 # Selectivity parameters:
-selex_len = data.frame(Pattern = c(rep(24,times = 3),1,1,1,1,rep(24,times = 9),15,15,15,15),
-                             Discard = 0,
-                             Male = 0,
-                             Special = c(rep(0, times= 16), 4,5,6,7))
-selex_age = data.frame(Pattern = rep(0, times = 20),
-                             Discard = 0, Male = 0, Special = 0)
+
+# For 1 Area:
+selex_len = data.frame(Pattern = c(24,24,1,24,24,24,24,15),
+                       Discard = 0, Male = 0, Special = c(rep(0, times= 7), 3))
+selex_age = data.frame(Pattern = rep(0, times = 8),
+                       Discard = 0, Male = 0, Special = 0)
 selex_params_double = data.frame(LO   = c(5,-15,-15,-15,-15,-15),
                                  HI   = c(130,15,15,15,15,15),
                                  INIT = c(50, 0, 5,6,-10,-10),
@@ -36,10 +42,36 @@ selex_params_logistic = data.frame(LO = c(5,0),
                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
                                    env_var = 0, dev_link = 0, dev_minyr = 0,
                                    dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-selex_df = rbind(selex_params_double,selex_params_double,selex_params_double,selex_params_logistic,
-                 selex_params_logistic,selex_params_logistic,selex_params_logistic,selex_params_double,
-                 selex_params_double,selex_params_double,selex_params_double,selex_params_double,
+selex_df = rbind(selex_params_double,selex_params_double,selex_params_logistic,
                  selex_params_double,selex_params_double,selex_params_double,selex_params_double)
+
+
+
+
+# For 4 Areas:
+# selex_len = data.frame(Pattern = c(rep(24,times = 3),1,1,1,1,rep(24,times = 9),15,15,15,15),
+#                              Discard = 0,
+#                              Male = 0,
+#                              Special = c(rep(0, times= 16), 4,5,6,7))
+# selex_age = data.frame(Pattern = rep(0, times = 20),
+#                              Discard = 0, Male = 0, Special = 0)
+# selex_params_double = data.frame(LO   = c(5,-15,-15,-15,-15,-15),
+#                                  HI   = c(130,15,15,15,15,15),
+#                                  INIT = c(50, 0, 5,6,-10,-10),
+#                                  PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4,4,4,4,4), 
+#                                  env_var = 0, dev_link = 0, dev_minyr = 0,
+#                                  dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
+# selex_params_logistic = data.frame(LO = c(5,0),
+#                                    HI   = c(130,60),
+#                                    INIT = c(50,10),
+#                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
+#                                    env_var = 0, dev_link = 0, dev_minyr = 0,
+#                                    dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
+# selex_df = rbind(selex_params_double,selex_params_double,selex_params_double,selex_params_logistic,
+#                  selex_params_logistic,selex_params_logistic,selex_params_logistic,selex_params_double,
+#                  selex_params_double,selex_params_double,selex_params_double,selex_params_double,
+#                  selex_params_double,selex_params_double,selex_params_double,selex_params_double)
+
 
 # -------------------------------------------------------------------------
 # Read template:
@@ -50,7 +82,7 @@ template_fore = r4ss::SS_readforecast(file = 'base/forecast.ss')
 
 
 # -------------------------------------------------------------------------
-# BEGIN LOOP:
+# BEGIN LOOP ONLY TO CREATE THE INPUT SS FILES:
 
 for(i in seq_along(mydata)) {
   
@@ -58,10 +90,10 @@ for(i in seq_along(mydata)) {
   this_data = get(mydata[i])
   
   # -------------------------------------------------------------------------
-  # Run models:
+  # Create input files DAT y CTL
   
   outFiles = get_initial_files(sim_dat = this_data, ctl = template_ctl, dat = template_dat, 
-                    selex_len = selex_len, selex_age = selex_age, selex_df = selex_df)
+                               selex_len = selex_len, selex_age = selex_age, selex_df = selex_df)
   
   # -------------------------------------------------------------------------
   # Write SS files:
@@ -71,12 +103,30 @@ for(i in seq_along(mydata)) {
   r4ss::SS_writeforecast(mylist = template_fore, file = paste0(file.path(type_data, mydata[i]), '/forecast.ss'), overwrite = TRUE)
   r4ss::SS_writectl_3.30(ctllist = outFiles$ctl, outfile = paste0(file.path(type_data, mydata[i]), '/control_ss.ctl'), overwrite = TRUE)
   
+  print(i)
+  
+}
+
+
+# -------------------------------------------------------------------------
+# Detect number of cores:
+cores = detectCores()
+cl = makeCluster(cores[1] - nCoresRemain)
+registerDoSNOW(cl)
+
+
+# -------------------------------------------------------------------------
+# BEGIN LOOP to RUN ss IN PARALLEL:
+
+foreach(ix = seq_along(mydata)) %dopar% {
+  
   # -------------------------------------------------------------------------
   # Run SS3:
   
-  dir = paste0(mainDir, '/', file.path(type_data, mydata[i])) 
+  dir = paste0(mainDir, '/', file.path(type_data, mydata[ix])) 
   command = paste("cd", dir, "& ss -nohess", sep = " ")
   ss = shell(cmd = command, intern = T, wait = T)
   
 }
 
+stopCluster(cl)

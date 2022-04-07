@@ -61,7 +61,7 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   OutDataFile$fleetinfo2 = t(data.frame(units = OutDataFile$units_of_catch, need_catch_mult = 0))
   OutDataFile$max_combined_lbin = rep(myDataFile$max_combined_lbin, times = OutDataFile$Nfleets)
   
-  if(myDataFile$do_tags == 1) {
+  if(myDataFile$do_tags == 1 & myDataFile$N_areas > 1) {
     
     OutDataFile$do_tags = myDataFile$do_tags
     OutDataFile$N_tag_groups = myDataFile$N_tag_groups
@@ -71,6 +71,8 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
     OutDataFile$tag_releases = myDataFile$tag_releases
     OutDataFile$tag_recaps = myDataFile$tag_recaps
     OutDataFile$tag_releases$yr = 1000 + OutDataFile$tag_releases$yr
+    OutDataFile$tag_releases$tfill = 1000 + OutDataFile$tag_releases$tfill
+    OutDataFile$tag_releases$age = OutDataFile$tag_releases$age - 1 # to adjust SS age range
     OutDataFile$tag_recaps$yr = 1000 + OutDataFile$tag_recaps$yr
     
   }
