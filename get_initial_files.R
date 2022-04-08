@@ -87,7 +87,7 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
                                                 age = 0)
   
   if(myDataFile$N_areas > 1) OutControlFile$N_moveDef = 0
-  # firstAgeMove
+  # firstAgeMove (substract 1)
   # moveDef is df
   
   x_rep = c(rep(1, times = 23), myDataFile$N_areas, 1,1)

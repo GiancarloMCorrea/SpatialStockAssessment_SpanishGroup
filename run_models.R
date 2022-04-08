@@ -30,13 +30,13 @@ selex_len = data.frame(Pattern = c(24,24,1,24,24,24,24,15),
                        Discard = 0, Male = 0, Special = c(rep(0, times= 7), 3))
 selex_age = data.frame(Pattern = rep(0, times = 8),
                        Discard = 0, Male = 0, Special = 0)
-selex_params_double = data.frame(LO   = c(5,-15,-15,-15,-15,-15),
+selex_params_double = data.frame(LO   = c(15,-15,-15,-15,-15,-15),
                                  HI   = c(130,15,15,15,15,15),
                                  INIT = c(50, 0, 5,6,-10,-10),
                                  PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4,4,4,4,4), 
                                  env_var = 0, dev_link = 0, dev_minyr = 0,
                                  dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-selex_params_logistic = data.frame(LO = c(5,0),
+selex_params_logistic = data.frame(LO = c(15,0),
                                    HI   = c(130,60),
                                    INIT = c(50,10),
                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
@@ -55,13 +55,13 @@ selex_df = rbind(selex_params_double,selex_params_double,selex_params_logistic,
 #                              Special = c(rep(0, times= 16), 4,5,6,7))
 # selex_age = data.frame(Pattern = rep(0, times = 20),
 #                              Discard = 0, Male = 0, Special = 0)
-# selex_params_double = data.frame(LO   = c(5,-15,-15,-15,-15,-15),
+# selex_params_double = data.frame(LO   = c(15,-15,-15,-15,-15,-15),
 #                                  HI   = c(130,15,15,15,15,15),
 #                                  INIT = c(50, 0, 5,6,-10,-10),
 #                                  PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4,4,4,4,4), 
 #                                  env_var = 0, dev_link = 0, dev_minyr = 0,
 #                                  dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-# selex_params_logistic = data.frame(LO = c(5,0),
+# selex_params_logistic = data.frame(LO = c(15,0),
 #                                    HI   = c(130,60),
 #                                    INIT = c(50,10),
 #                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
@@ -122,7 +122,6 @@ foreach(ix = seq_along(mydata)) %dopar% {
   
   # -------------------------------------------------------------------------
   # Run SS3:
-  
   dir = paste0(mainDir, '/', file.path(type_data, mydata[ix])) 
   command = paste("cd", dir, "& ss -nohess", sep = " ")
   ss = shell(cmd = command, intern = T, wait = T)
