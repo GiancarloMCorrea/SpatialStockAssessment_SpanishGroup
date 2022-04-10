@@ -72,7 +72,6 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
     OutDataFile$tag_recaps = myDataFile$tag_recaps
     OutDataFile$tag_releases$yr = 1000 + OutDataFile$tag_releases$yr
     OutDataFile$tag_releases$tfill = 1000 + OutDataFile$tag_releases$tfill
-    OutDataFile$tag_releases$age = OutDataFile$tag_releases$age - 1 # to adjust SS age range
     OutDataFile$tag_recaps$yr = 1000 + OutDataFile$tag_recaps$yr
     
   }

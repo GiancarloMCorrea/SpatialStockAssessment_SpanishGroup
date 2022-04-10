@@ -32,22 +32,22 @@
 #
 3 #_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
 #_ #_Age_natmort_by sex x growthpattern
-#_V1	V2	V3	V4	V5	V6	V7	V8	V9	V10	V11	V12	V13	V14	V15	V16	V17	V18	V19	V20	V21	V22	V23	V24	V25	V26	V27	V28
-0.3358	0.2955	0.2552	0.2149	0.1746	0.1343	0.1343	0.1343	0.1343	0.1343	0.141	0.1606	0.178	0.1915	0.1994	0.2009	0.1962	0.1865	0.1743	0.1623	0.1522	0.1449	0.1401	0.1373	0.1357	0.1349	0.1346	0.1344	#_1
+#_V0 V1	V2	V3	V4	V5	V6	V7	V8	V9	V10	V11	V12	V13	V14	V15	V16	V17	V18	V19	V20	V21	V22	V23	V24	V25	V26	V27	V28
+0.3358 0.3358	0.2955	0.2552	0.2149	0.1746	0.1343	0.1343	0.1343	0.1343	0.1343	0.141	0.1606	0.178	0.1915	0.1994	0.2009	0.1962	0.1865	0.1743	0.1623	0.1522	0.1449	0.1401	0.1373	0.1357	0.1349	0.1346	0.1344	#_1
 3 # GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr;5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
-0 #_Age(post-settlement)_for_L1;linear growth below this
+1 #_Age(post-settlement)_for_L1;linear growth below this
 999 #_Growth_Age_for_L2 (999 to use as Linf)
 -999 #_exponential decay for growth above maxage (value should approx initial Z; -999 replicates 3.24; -998 to not allow growth above maxage)
 0 #_placeholder for future growth feature
 12 # number of K multipliers to read
-0 1 2 3 4 5 6 7 8 9 10 11 # ages for K multiplier
+1 2 3 4 5 6 7 8 9 10 11 12 # ages for K multiplier
 #
 0 #_SD_add_to_LAA (set to 0.1 for SS2 V1.x compatibility)
 0 #_CV_Growth_Pattern:  0 CV=f(LAA); 1 CV=F(A); 2 SD=F(LAA); 3 SD=F(A); 4 logSD=F(A)
 3 #_maturity_option:  1=length logistic; 2=age logistic; 3=read age-maturity matrix by growth_pattern; 4=read age-fecundity; 5=disabled; 6=read length-maturity
 # Age Maturity or Age fecundity:
-#_V1	V2	V3	V4	V5	V6	V7	V8	V9	V10	V11	V12	V13	V14	V15	V16	V17	V18	V19	V20	V21	V22	V23	V24	V25	V26	V27	V28
-0	0	0	0	0.1	0.15	0.2	0.3	0.5	0.7	0.9	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	#_1
+#_V0 V1	V2	V3	V4	V5	V6	V7	V8	V9	V10	V11	V12	V13	V14	V15	V16	V17	V18	V19	V20	V21	V22	V23	V24	V25	V26	V27	V28
+0 0	0	0	0	0.1	0.15	0.2	0.3	0.5	0.7	0.9	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	#_1
 0 #_First_Mature_Age
 1 #_fecundity option:(1)eggs=Wt*(a+b*Wt);(2)eggs=a*L^b;(3)eggs=a*Wt^b; (4)eggs=a+b*L; (5)eggs=a+b*W
 0 #_hermaphroditism option:  0=none; 1=female-to-male age-specific fxn; -1=male-to-female age-specific fxn
@@ -57,19 +57,19 @@
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
  5.0	 40.0	 2.2000e+01	0	0	0	-3	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1          
 90.0	200.0	 1.4500e+02	0	0	0	-3	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1          
- 0.1	  0.7	 4.5500e-01	0	0	0	-3	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1          
- 0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs0                  
- 0.0	  2.0	 5.0000e-01	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs1                  
- 0.0	  2.0	 7.5000e-01	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs2                  
- 0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs3                  
+ 0.1	  0.7	 4.5500e-01	0	0	0	-3	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1   
+ 0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs1                 
+ 0.0	  2.0	 5.0000e-01	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs2                  
+ 0.0	  2.0	 7.5000e-01	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs3                  
  0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs4                  
  0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs5                  
- 0.0	  2.0	 1.8000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs6                  
+ 0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs6                  
  0.0	  2.0	 1.8000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs7                  
- 0.0	  2.0	 1.2000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs8                  
+ 0.0	  2.0	 1.8000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs8                  
  0.0	  2.0	 1.2000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs9                  
- 0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs10                 
+ 0.0	  2.0	 1.2000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs10                  
  0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs11                 
+ 0.0	  2.0	 1.0000e+00	0	0	0	-3	0	0	0	0	0	0	0	#_AgeK_devs12                 
  0.0	  2.0	 1.0000e-01	0	0	0	-3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1           
  0.0	  2.0	 1.0000e-01	0	0	0	-3	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1             
  0.0	  1.0	 2.4590e-05	0	0	0	-3	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1            

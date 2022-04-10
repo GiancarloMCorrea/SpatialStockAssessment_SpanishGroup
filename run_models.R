@@ -24,49 +24,35 @@ dir.create(path = type_data)
 
 # -------------------------------------------------------------------------
 # Selectivity parameters:
-
-# For 1 Area:
-selex_len = data.frame(Pattern = c(24,24,1,24,24,24,24,15),
-                       Discard = 0, Male = 0, Special = c(rep(0, times= 7), 3))
-selex_age = data.frame(Pattern = rep(0, times = 8),
-                       Discard = 0, Male = 0, Special = 0)
-selex_params_double = data.frame(LO   = c(15,-15,-15,-15,-15,-15),
-                                 HI   = c(130,15,15,15,15,15),
-                                 INIT = c(50, 0, 5,6,-10,-10),
-                                 PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4,4,4,4,4), 
+selex_params_double = data.frame(LO   = c(0,   -15, -15,-15,-1000,-15),
+                                 HI   = c(25,    15, 15,  15, 15,   15),
+                                 INIT = c(5,   2,  -6,   2, -999, -3),
+                                 PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4,4,4,-4,4), 
                                  env_var = 0, dev_link = 0, dev_minyr = 0,
                                  dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-selex_params_logistic = data.frame(LO = c(15,0),
-                                   HI   = c(130,60),
-                                   INIT = c(50,10),
+selex_params_logistic = data.frame(LO =   c(0, 0),
+                                   HI   = c(25,25),
+                                   INIT = c(9, 2),
                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
                                    env_var = 0, dev_link = 0, dev_minyr = 0,
                                    dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
+
+# For 1 Area:
+selex_len = data.frame(Pattern = rep(0, times = 8),
+                       Discard = 0, Male = 0, Special = 0)
+selex_age = data.frame(Pattern = c(20,20,12,20,20,20,20,15),
+                       Discard = 0, Male = 0, Special = c(rep(0, times= 7), 3))
 selex_df = rbind(selex_params_double,selex_params_double,selex_params_logistic,
                  selex_params_double,selex_params_double,selex_params_double,selex_params_double)
 
 
-
-
 # For 4 Areas:
-# selex_len = data.frame(Pattern = c(rep(24,times = 3),1,1,1,1,rep(24,times = 9),15,15,15,15),
+# selex_len = data.frame(Pattern = rep(0, times = 20),
+#                        Discard = 0, Male = 0, Special = 0)
+# selex_age = data.frame(Pattern = c(rep(20,times = 3),12,12,12,12,rep(20,times = 9),15,15,15,15),
 #                              Discard = 0,
 #                              Male = 0,
 #                              Special = c(rep(0, times= 16), 4,5,6,7))
-# selex_age = data.frame(Pattern = rep(0, times = 20),
-#                              Discard = 0, Male = 0, Special = 0)
-# selex_params_double = data.frame(LO   = c(15,-15,-15,-15,-15,-15),
-#                                  HI   = c(130,15,15,15,15,15),
-#                                  INIT = c(50, 0, 5,6,-10,-10),
-#                                  PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4,4,4,4,4), 
-#                                  env_var = 0, dev_link = 0, dev_minyr = 0,
-#                                  dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-# selex_params_logistic = data.frame(LO = c(15,0),
-#                                    HI   = c(130,60),
-#                                    INIT = c(50,10),
-#                                    PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(4,4), 
-#                                    env_var = 0, dev_link = 0, dev_minyr = 0,
-#                                    dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
 # selex_df = rbind(selex_params_double,selex_params_double,selex_params_double,selex_params_logistic,
 #                  selex_params_logistic,selex_params_logistic,selex_params_logistic,selex_params_double,
 #                  selex_params_double,selex_params_double,selex_params_double,selex_params_double,
