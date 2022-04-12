@@ -72,6 +72,7 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
     OutDataFile$tag_recaps = myDataFile$tag_recaps
     OutDataFile$tag_releases$yr = 1000 + OutDataFile$tag_releases$yr
     OutDataFile$tag_releases$tfill = 1000 + OutDataFile$tag_releases$tfill
+    # OutDataFile$tag_releases$age = OutDataFile$tag_releases$age - 1 # SS age
     OutDataFile$tag_recaps$yr = 1000 + OutDataFile$tag_recaps$yr
     
   }
@@ -100,8 +101,8 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   OutControlFile$Q_options = data.frame(fleet = (myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys), 
                                         link = 0, link_info = 0, extra_se = 0, biasadj = 0, float = 0)
   rownames(OutControlFile$Q_options) = myDataFile$fleetnames[(myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys)]
-  OutControlFile$Q_parms = data.frame(LO = -15, HI = 15, INIT = rep(0, times = myDataFile$Nsurveys), PRIOR = 0, PR_SD = 0,
-                                      PR_type = 0, PHASE = 3, env_var = 0,
+  OutControlFile$Q_parms = data.frame(LO = -30, HI = 15, INIT = rep(-8, times = myDataFile$Nsurveys), PRIOR = 0, PR_SD = 0,
+                                      PR_type = 0, PHASE = 1, env_var = 0,
                                       dev_link = 0, dev_minyr = 0, dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
   rownames(OutControlFile$Q_parms) = paste0('LnQ', myDataFile$fleetnames[(myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys)])
   

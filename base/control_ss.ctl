@@ -92,24 +92,24 @@
 0 # 0/1 to use steepness in initial equ recruitment calculation
 0 # future feature: 0/1 to make realized sigmaR a function of SR curvature
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn # parm_name
- 5.0	25	10.2	0	0	0	 1	0	0	0	0	0	0	0	#_SR_LN(R0)  
+ 5.0	25	11.4	0	0	0	 1	0	0	0	0	0	0	0	#_SR_LN(R0)  
  0.2	 1	 0.8	0	0	0	-1	0	0	0	0	0	0	0	#_SR_BH_steep
  0.0	 2	 0.6	0	0	0	-2	0	0	0	0	0	0	0	#_SR_sigmaR  
 -5.0	 5	 0.0	0	0	0	-1	0	0	0	0	0	0	0	#_SR_regime  
  0.0	 0	 0.0	0	0	0	-1	0	0	0	0	0	0	0	#_SR_autocorr
 #_no timevary SR parameters
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
-1050 # first year of main recr_devs; early devs can preceed this era
-1240 # last year of main recr_devs; forecast devs start in following year
+1088 # first year of main recr_devs; early devs can preceed this era
+1250 # last year of main recr_devs; forecast devs start in following year
 2 #_recdev phase
 1 # (0/1) to read 13 advanced options
 974 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
 2 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1049 #_last_yr_nobias_adj_in_MPD; begin of ramp
-1050 #_first_yr_fullbias_adj_in_MPD; begin of plateau
-1240 #_last_yr_fullbias_adj_in_MPD
+1087 #_last_yr_nobias_adj_in_MPD; begin of ramp
+1088 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+1250 #_last_yr_fullbias_adj_in_MPD
 1256 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
 1 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
@@ -137,7 +137,7 @@
 -9999	0	0	0	0	0	#_terminator
 #_Q_parms(if_any);Qunits_are_ln(q)
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name
--15	15	0	0	0	0	3	0	0	0	0	0	0	0	#_LnQllcpue
+-25	15	-10	0	0	0	3	0	0	0	0	0	0	0	#_LnQllcpue
 #_no timevary Q parameters
 #
 #_size_selex_patterns
