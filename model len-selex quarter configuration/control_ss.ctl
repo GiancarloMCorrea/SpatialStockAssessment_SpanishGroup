@@ -91,26 +91,26 @@
 0 # 0/1 to use steepness in initial equ recruitment calculation
 0 # future feature: 0/1 to make realized sigmaR a function of SR curvature
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn # parm_name
-  5	15	    8 	  0	0	0	 2	0	0	0	0	0	0	0	#_SR_LN(R0)  
+  5	15	   10 	  0	0	0	 1	0	0	0	0	0	0	0	#_SR_LN(R0)  
 0.2	 1	  0.8	   0	0	0	-1	0	0	0	0	0	0	0	#_SR_BH_steep
   0	 2	  0.6    0	0	0	-2	0	0	0	0	0	0	0	#_SR_sigmaR  
  -5	 5	    0	   0	0	0	-1	0	0	0	0	0	0	0	#_SR_regime  
   0	 0	    0	   0	0	0	-1	0	0	0	0	0	0	0	#_SR_autocorr
 #_no timevary SR parameters
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
-1020 # first year of main recr_devs; early devs can preceed this era
+1080 # first year of main recr_devs; early devs can preceed this era
 1250 # last year of main recr_devs; forecast devs start in following year
-3 #_recdev phase
+2 #_recdev phase
 1 # (0/1) to read 13 advanced options
 0 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
 -2 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1040 #_last_yr_nobias_adj_in_MPD; begin of ramp
-1041 #_first_yr_fullbias_adj_in_MPD; begin of plateau
-1246 #_last_yr_fullbias_adj_in_MPD
-1256 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-0.97 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+1074.6   #_last_early_yr_nobias_adj_in_MPD 
+1174.0   #_first_yr_fullbias_adj_in_MPD 
+1221.0   #_last_yr_fullbias_adj_in_MPD 
+1231.8   #_first_recent_yr_nobias_adj_in_MPD 
+0.4517  #_max_bias_adj_in_MPD (1.0 to mimic pre-2009 models) 
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -122,8 +122,8 @@
 #_Yr Input_value
 #
 #Fishing Mortality info
-0.3 # F ballpark
--1102 # F ballpark year (neg value to disable)
+0 # F ballpark
+-1002 # F ballpark year (neg value to disable)
 3 # F_Method:  1=Pope; 2=instan. F; 3=hybrid (hybrid is recommended)
 7 # max F or harvest rate, depends on F_Method
 5 # N iterations for tuning F in hybrid method (recommend 3 to 7)
@@ -136,14 +136,14 @@
 -9999	0	0	0	0	0	#_terminator
 #_Q_parms(if_any);Qunits_are_ln(q)
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name
--25	1	0	0	0	0	1	0	0	0	0	0	0	0	#_LnQllcpue
+-25	-6	-8	0	0	0	3	0	0	0	0	0	0	0	#_LnQllcpue
 #_no timevary Q parameters
 #
 #_size_selex_patterns
 #_Pattern	Discard	Male	Special
 24	0	0	0	#_1 1
 24	0	0	0	#_2 2
-1	0	0	0	#_3 3
+1	  0	0	0	#_3 3
 24	0	0	0	#_4 4
 24	0	0	0	#_5 5
 24	0	0	0	#_6 6
@@ -165,13 +165,13 @@
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name
     15	150	   50	0	0	0	 4	0	0	0	0	0	0	0	#_1 
    -10	 10	  -2	0	0	0	 4	0	0	0	0	0	0	0	#_2 
-   -10	 15	  -1	0	0	0	 5	0	0	0	0	0	0	0	#_3 
+   -20	 15	  -1	0	0	0	 5	0	0	0	0	0	0	0	#_3 
    -20	 20	   1	0	0	0	 5	0	0	0	0	0	0	0	#_4 
 -1000	15	-999	0	0	0	 -6	0	0	0	0	0	0	0	#_5 
     -10	5	  -4	0	0	0  -6	0	0	0	0	0	0	0	#_6 
     15  150    50 0 0 0  4  0 0 0 0 0 0 0 #_1 
    -10   10   -2  0 0 0  4  0 0 0 0 0 0 0 #_2 
-   -10   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
+   -20   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
    -20   20    1  0 0 0  5  0 0 0 0 0 0 0 #_4 
 -1000 15  -999  0 0 0  -6 0 0 0 0 0 0 0 #_5 
     -10 5   -4  0 0 0  -6  0 0 0 0 0 0 0 #_6 
@@ -179,25 +179,25 @@
     0	  50	   10	0	0	0	 4	0	0	0	0	0	0	0	#_14
     15  150    50 0 0 0  4  0 0 0 0 0 0 0 #_1 
    -10   10   -2  0 0 0  4  0 0 0 0 0 0 0 #_2 
-   -10   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
+   -20   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
    -20   20    1  0 0 0  5  0 0 0 0 0 0 0 #_4 
 -1000 15  -999  0 0 0  -6 0 0 0 0 0 0 0 #_5 
     -10 5   -4  0 0 0  -6  0 0 0 0 0 0 0 #_6 
     15  150    50 0 0 0  4  0 0 0 0 0 0 0 #_1 
    -10   10   -2  0 0 0  4  0 0 0 0 0 0 0 #_2 
-   -10   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
+   -20   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
    -20   20    1  0 0 0  5  0 0 0 0 0 0 0 #_4 
 -1000 15  -999  0 0 0  -6 0 0 0 0 0 0 0 #_5 
     -10 5   -4  0 0 0  -6  0 0 0 0 0 0 0 #_6 
     15  150    50 0 0 0  4  0 0 0 0 0 0 0 #_1 
    -10   10   -2  0 0 0  4  0 0 0 0 0 0 0 #_2 
-   -10   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
+   -20   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
    -20   20    1  0 0 0  5  0 0 0 0 0 0 0 #_4 
 -1000 15  -999  0 0 0  -6 0 0 0 0 0 0 0 #_5 
     -10 5   -4  0 0 0  -6  0 0 0 0 0 0 0 #_6 
     15  150    50 0 0 0  4  0 0 0 0 0 0 0 #_1 
    -10   10   -2  0 0 0  4  0 0 0 0 0 0 0 #_2 
-   -10   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
+   -20   15   -1  0 0 0  5  0 0 0 0 0 0 0 #_3 
    -20   20    1  0 0 0  5  0 0 0 0 0 0 0 #_4 
 -1000 15  -999  0 0 0  -6 0 0 0 0 0 0 0 #_5 
     -10 5   -4  0 0 0  -6  0 0 0 0 0 0 0 #_6 
