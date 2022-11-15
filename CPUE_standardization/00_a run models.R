@@ -8,12 +8,20 @@ setwd('C:/Users/giancarlo.correa/Work/GitHub/SpatialStockAssessment_SpanishGroup
 # Number of replicates
 nRep = 100
 
-# Create directory
-out_01<-paste(getwd(),"/output/01 iid model", sep="")
+# Create directory: Model iid
+# out_01<-paste(getwd(),"/output/01 iid model", sep="")
+# dir.create(out_01)
+# out_02<-paste(getwd(),"/output/01 iid model/SSinput", sep="")
+# dir.create(out_02)
+# out_011<-paste(getwd(),"/output/01 iid model/predicted CPUE st", sep="")
+# dir.create(out_011)
+
+# Create directory: Model besag
+out_11<-paste(getwd(),"/output/02 besag model", sep="")
 dir.create(out_01)
-out_02<-paste(getwd(),"/output/01 iid model/SSinput", sep="")
+out_12<-paste(getwd(),"/output/02 besag model/SSinput", sep="")
 dir.create(out_02)
-out_011<-paste(getwd(),"/output/01 iid model/predicted CPUE st", sep="")
+out_111<-paste(getwd(),"/output/02 besag model/predicted CPUE st", sep="")
 dir.create(out_011)
 
 # Begin running
@@ -34,6 +42,7 @@ for(ix in 1:nRep){
   library(dplyr)
   library(plyr)
   library(magick)
+  library(spdep)
   
   source('01 iid model.R', local = TRUE)
   
