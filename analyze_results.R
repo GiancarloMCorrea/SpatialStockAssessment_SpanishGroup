@@ -11,7 +11,7 @@ require(stringr)
 require(dplyr)
 require(ggplot2)
 yrvector = 1001:1256 # could be any vector (decimals to include seasons)
-min_grad = 0.1
+min_grad = 0.01
 
 # -------------------------------------------------------------------------
 # Main directories (model types):

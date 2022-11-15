@@ -1,5 +1,5 @@
 
-get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) {
+get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, Qphase = 3) {
 
   # INIT INFO:
   
@@ -39,8 +39,8 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
                                     SD_Report = 0)
   rownames(OutDataFile$CPUEinfo) = myDataFile$fleetnames
   #CPUE data:
-  index_vec = as.numeric(as.character(myDataFile$CPUE$index))
-  if(any(is.na(index_vec))) index_vec = 8 # one area
+  index_vec = myDataFile$CPUE$index
+  if(myDataFile$N_areas == 1) index_vec = 8 # one area
   cpue_330 = data.frame(year = 1000 + as.numeric(as.character(myDataFile$CPUE$year)), 
                         seas = 7, 
                         index = index_vec,
@@ -61,7 +61,8 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   OutDataFile$fleetinfo2 = t(data.frame(units = OutDataFile$units_of_catch, need_catch_mult = 0))
   OutDataFile$max_combined_lbin = rep(myDataFile$max_combined_lbin, times = OutDataFile$Nfleets)
   
-  if(myDataFile$do_tags == 1 & myDataFile$N_areas > 1) {
+  #if(myDataFile$do_tags == 1 & myDataFile$N_areas > 1) {
+  if(myDataFile$do_tags == 1) {
     
     OutDataFile$do_tags = myDataFile$do_tags
     OutDataFile$N_tag_groups = myDataFile$N_tag_groups
@@ -72,8 +73,9 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
     OutDataFile$tag_recaps = myDataFile$tag_recaps
     OutDataFile$tag_releases$yr = 1000 + OutDataFile$tag_releases$yr
     OutDataFile$tag_releases$tfill = 1000 + OutDataFile$tag_releases$tfill
-    # OutDataFile$tag_releases$age = OutDataFile$tag_releases$age - 1 # SS age
+    OutDataFile$tag_releases$age = OutDataFile$tag_releases$age - 1 # SS age
     OutDataFile$tag_recaps$yr = 1000 + OutDataFile$tag_recaps$yr
+    if(myDataFile$N_areas == 1) OutDataFile$tag_recaps$fleet = 6 # purse seine
     
   }
   
@@ -90,7 +92,7 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   # firstAgeMove (substract 1)
   # moveDef is df
   
-  x_rep = c(rep(1, times = 23), myDataFile$N_areas, 1,1)
+  x_rep = c(rep(1, times = 22), myDataFile$N_areas, 1,1)
   MGdf = OutControlFile$MG_parms
   MGdf_new = MGdf %>% 
                 slice(rep(1:nrow(MGdf), times= x_rep))
@@ -101,8 +103,8 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df) 
   OutControlFile$Q_options = data.frame(fleet = (myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys), 
                                         link = 0, link_info = 0, extra_se = 0, biasadj = 0, float = 0)
   rownames(OutControlFile$Q_options) = myDataFile$fleetnames[(myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys)]
-  OutControlFile$Q_parms = data.frame(LO = -30, HI = 15, INIT = rep(-8, times = myDataFile$Nsurveys), PRIOR = 0, PR_SD = 0,
-                                      PR_type = 0, PHASE = 1, env_var = 0,
+  OutControlFile$Q_parms = data.frame(LO = -30, HI = 15, INIT = rep(-3, times = myDataFile$Nsurveys), PRIOR = 0, PR_SD = 0,
+                                      PR_type = 0, PHASE = Qphase, env_var = 0,
                                       dev_link = 0, dev_minyr = 0, dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
   rownames(OutControlFile$Q_parms) = paste0('LnQ', myDataFile$fleetnames[(myDataFile$Nfleet+1):(myDataFile$Nfleet+myDataFile$Nsurveys)])
   

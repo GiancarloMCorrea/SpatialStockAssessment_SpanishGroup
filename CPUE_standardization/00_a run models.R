@@ -17,11 +17,12 @@ out_011<-paste(getwd(),"/output/01 iid model/predicted CPUE st", sep="")
 dir.create(out_011)
 
 # Begin running
-cores = detectCores()
-cl = makeCluster(cores[1] - 5)
-registerDoSNOW(cl)
+#cores = detectCores()
+#cl = makeCluster(cores[1] - 5)
+#registerDoSNOW(cl)
 
-foreach(ix = 1:nRep) %dopar% {
+#foreach(ix = 1:nRep) %dopar% {
+for(ix in 1:nRep){
   
   library(INLA)
   library(sf)
@@ -37,4 +38,4 @@ foreach(ix = 1:nRep) %dopar% {
   
 }
 
-stopCluster(cl)
+#stopCluster(cl)
