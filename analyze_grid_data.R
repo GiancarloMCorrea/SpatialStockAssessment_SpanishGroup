@@ -2,12 +2,14 @@
 rm(list = ls())
 
 # Set working directory
-mainDir = 'C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup'
-setwd(mainDir)
+#mainDir = 'C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup'
+#setwd(mainDir)
 
 # Libraries:
 require(dplyr)
 require(tidyr)
+library(rnaturalearth)
+library(rnaturalearthdata)
 require(reshape2)
 # -------------------------------------------------------------------------
 # Read data from Github:
@@ -104,4 +106,27 @@ for(i in seq_along(mydata)) {
 out_catch = dplyr::bind_rows(save_total)
 
 write.csv(out_catch, 'Catch_grid_data.csv', row.names = FALSE)
+
+
+# -------------------------------------------------------------------------
+# Len comp data
+
+# Read polygons:
+load(file="CPUE_standardization/data/poly_grid.RData")
+## world map 
+world_map_data <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Create object to plot:
+this_data = get(mydata[1])
+lendata = this_data$obs$simulated_lf_ps_121$data$obs
+lendata2 = lendata[,-1]
+rownames(lendata2) = lendata[,1]
+colnames(lendata2) = this_data$obs$simulated_lf_ps_121$data$length_bins[-1]
+lendata3 = setNames(melt(lendata2), c('grid','len_bin', 'prop'))
+lendata3$len_bin = as.numeric(lendata3$len_bin)
+lendata3$prop = as.numeric(lendata3$prop)
+
+poly_grid_out<-poly_grid
+poly_grid_out$UPmean <- round(model$summary.random$polyID[["mean"]], 4)
+
 
