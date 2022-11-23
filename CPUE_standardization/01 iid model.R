@@ -312,7 +312,7 @@ ggsave(paste0(out_01,"/01 iid model predicted CPUE index_1 area", ix,".png"), dp
 
 ## input idx SS: year, seas,index, 
 input_SS_1A<-data_idx_1
-write.csv(input_SS_1A, file = file.path(out_02, paste0('input_SS_1A_', ix, '.csv')), row.names = FALSE)
+save(input_SS_1A, file = file.path(out_02, paste0('input_SS_1A_', ix, '.RData')))
 
 ## 4 area ----------------------------------------------------------------------
 
@@ -341,7 +341,7 @@ ggsave(paste0(out_01,"/01 iid model predicted CPUE index_ 4 areas", ix,".png"), 
 
 ## input idx SS: year, seas,index, 
 input_SS_4A<-data_idx_4
-write.csv(input_SS_4A, file = file.path(out_02, paste0('input_SS_4A_', ix, '.csv')), row.names = FALSE)
+save(input_SS_4A, file = file.path(out_02, paste0('input_SS_4A_', ix, '.RData')))
 
 ## CPUE st ---------------------------------------------------------------------
 ## world map 

@@ -45,12 +45,12 @@ out_02<-paste(getwd(),"/output/02 besag model", sep="")
 grid.nb <- poly2nb(poly_grid) # just a single point (i.e., queen adjacency) by contiguity
 xy<-unique(data[,2:3])
 
-if(ix == 1) {
-png(paste0(out_02,"/02 besag model queen adjacency nb_", ix,".png"), width = 1000, height = 800, res = 150)
-plot(st_geometry(data$geometry),main="queen adjacency", axes=TRUE)
-plot(grid.nb, xy, add=T, col="blue")
-dev.off()
-}
+# if(ix == 1) {
+# png(paste0(out_02,"/02 besag model queen adjacency nb_", ix,".png"), width = 1000, height = 800, res = 150)
+# plot(st_geometry(data$geometry),main="queen adjacency", axes=TRUE)
+# plot(grid.nb, xy, add=T, col="blue")
+# dev.off()
+# }
 
 # graph ------------------------------------------------------------------------
 
@@ -70,10 +70,25 @@ dev.off()
 }
 # model ------------------------------------------------------------------------
 
+data = data[data$sim == paste0('sim_', ix), ]
+data$mcpue = data$cpue
+data$geometry = data$geometry.x
+
 formula <- mcpue ~ 1 + 
    f(polyID, model = "besag", graph = grid_graph, scale.model = TRUE) +
    f(psyearID, model="rw2")
 
+# tryCatch({
+# model <- inla(formula,
+#               family          = "gamma",
+#               data            = data,
+#               control.compute = list(dic = TRUE, config = TRUE, waic = TRUE, cpo = TRUE),
+#               control.predictor = list(compute=TRUE, cdf=c(log(1))),
+#               control.inla = list(strategy = 'adaptive'), 
+#               verbose=TRUE, num.threads = 1)
+# }, error = function(e){cat("ERROR:", conditionMessage(e),"\n")})
+
+checkerror = try({
 model <- inla(formula,
               family          = "gamma",
               data            = data,
@@ -81,6 +96,9 @@ model <- inla(formula,
               control.predictor = list(compute=TRUE, cdf=c(log(1))),
               control.inla = list(strategy = 'adaptive'), 
               verbose=TRUE, num.threads = 1)
+}, TRUE)
+
+if(isTRUE(class(checkerror)=="try-error")) { next } 
 
 #summary(model)
 
@@ -335,7 +353,7 @@ ggsave(paste0(out_02,"/02 besag model predicted CPUE index_1 area.png"), dpi=300
 
 ## input idx SS: year, seas,index, 
 input_SS_1A<-data_idx_1
-write.csv(input_SS_1A, file = file.path(out_12, paste0('input_SS_1A_', ix, '.csv')), row.names = FALSE)
+save(input_SS_1A, file = file.path(out_12, paste0('input_SS_1A_', ix, '.RData')))
 
 ## 4 area ----------------------------------------------------------------------
 
@@ -363,9 +381,11 @@ ggsave(paste0(out_02,"/02 besag model predicted CPUE index_ 4 areas.png"), dpi=3
 
 ## input idx SS: year, seas,index, 
 input_SS_4A<-data_idx_4
-write.csv(input_SS_4A, file = file.path(out_12, paste0('input_SS_4A_', ix, '.csv')), row.names = FALSE)
+save(input_SS_4A, file = file.path(out_12, paste0('input_SS_4A_', ix, '.RData')))
 
 ## CPUE st ---------------------------------------------------------------------
+
+if(ix == 1) {
 
 ## world map 
 world_map_data <- ne_countries(scale = "medium", returnclass = "sf")
@@ -374,8 +394,6 @@ world_map_data <- ne_countries(scale = "medium", returnclass = "sf")
 lmin=min(data_pred$X50.)
 lmax=max(data_pred$X50.)
 bks=c(0,50,100,150,200,250,300,350,400)
-
-if(ix == 1) {
 
 ## plot all years predicted CPUE
 ggplot()+
@@ -386,7 +404,7 @@ ggplot()+
    geom_sf(data = world_map_data,alpha=0.8) +
    theme_light() +
    coord_sf(expand=FALSE, xlim = c(10, 115), ylim = c(-45,40))+
-   xlab("longitude") + ylab("latitude") +   labs(fill=' Pred. CPUE')+
+   xlab("longitude") + ylab("latitude") +   labs(fill=' Pred. CPUE')
 
 ## save
 ggsave(paste0(out_02, "/02 besag model predicted CPUE median (years collapsed).png")
