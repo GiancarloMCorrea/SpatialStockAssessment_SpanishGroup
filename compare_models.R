@@ -1,0 +1,80 @@
+# Clean workspace:
+rm(list = ls())
+
+# Set working directory:
+
+# directory to save models (local disk)
+saveDir = 'C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup'
+
+# Libraries:
+require(r4ss)
+require(ss3diags)
+
+# Model information:
+type_model = '4A_25_ageS_PY_CPUEst_tags_move'
+subfolder = 'dat_4A_1'
+selex_type = 2 #1 = length, 2 = age
+
+# Path name:
+mod_path = paste0(saveDir, '/', file.path(type_model, subfolder))
+  
+# Read report:
+replist = SS_output(dir = mod_path,
+                      covar=TRUE, verbose = FALSE, printstats = FALSE)
+
+## Plot
+SS_plots(replist) ## html output
+
+## Summary plot
+png(file=paste(mod_path,"/a_SSplot.png",sep=""), width = 300, height = 200, units = 'mm', res = 500)
+par(mfrow=c(3,3))
+SSplotCatch(replist = replist, subplots=1) ; title("Landings")
+SSplotSummaryF(replist); title("F")
+SSplotBiology(replist,subplots = 1)
+SSplotRecdevs(replist, subplots=1);title("recdevs")
+SSplotBiology(replist,subplots = 6); title("Mat")
+SSplotSelex(replist, subplot = selex_type)
+SSplotTimeseries(replist, subplot = 7); title("Biomass")
+SSplotTimeseries(replist, subplot = 7, minyr = 1121, maxyr = 1256); title("Biomass recent")
+dev.off()
+
+## Typical summary tables
+replist$likelihoods_used
+replist$RunTime
+replist$likelihoods_by_fleet
+write.csv(replist$likelihoods_used, file=paste0(mod_path, "/likelihood-", subfolder, ".csv", sep=""))
+
+## Create output tables
+SSbiologytables(replist)
+SSexecutivesummary(replist)
+
+
+# -------------------------------------------------------------------------
+# Compare several models:
+
+# Models to compare (age selex 1 Area): only models that converged
+#type_model = c('1A_25_ageS_PY', '1A_25_ageS_PY_CPUEst')
+#type_model = c('1A_25_lenS_PY', '1A_25_lenS_PY_CPUEst', '1A_25_lenS_PY_CPUEst_tags', '1A_25_lenS_PY_tags')
+type_model = c('1A_25_ageS_PY_CPUEst', '1A_25_ageS_PY_CPUEst_tags')
+subfolder = 'dat_1A_1'
+plot_name = '1A_25_includetags'
+
+all_models = SSgetoutput(dirvec = paste0(saveDir, '/', file.path(type_model, subfolder)), getcovar = FALSE)
+summary_models = SSsummarize(biglist = all_models)
+summary_models$maxgrad
+# Make plots:
+png(file=paste0('figures/', plot_name, '_SSB.png'), width = 300, height = 200, units = 'mm', res = 500)
+par(mfrow=c(1,1))
+SSplotComparisons(summaryoutput = summary_models, subplots = 1, legendlabels = type_model)
+dev.off()
+
+png(file=paste0('figures/', plot_name, '_F.png'), width = 300, height = 200, units = 'mm', res = 500)
+par(mfrow=c(1,1))
+SSplotComparisons(summaryoutput = summary_models, subplots = 7, legendlabels = type_model)
+dev.off()
+
+png(file=paste0('figures/', plot_name, '_rec.png'), width = 300, height = 200, units = 'mm', res = 500)
+par(mfrow=c(1,1))
+SSplotComparisons(summaryoutput = summary_models, subplots = 9, legendlabels = type_model)
+dev.off()
+

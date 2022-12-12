@@ -11,7 +11,7 @@
 0 # unused option
 # for each settlement assignment:
 #_GPattern	month	area	age
-1	1	1	0	#_1
+1	1	1	1	#_1
 #
 #_Cond 0 # N_movement_definitions goes here if N_areas > 1
 #_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
@@ -32,22 +32,22 @@
 #
 3 #_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
 #_ #_Age_natmort_by sex x growthpattern
-#_Age_0	Age_1	Age_2	Age_3	Age_4	Age_5	Age_6	Age_7	Age_8	Age_9	Age_10	Age_11	Age_12	Age_13	Age_14	Age_15	Age_16	Age_17	Age_18	Age_19	Age_20	Age_21	Age_22	Age_23	Age_24	Age_25	Age_26	Age_27
-0.3358	0.2955	0.2552	0.2149	0.1746	0.1343	0.1343	0.1343	0.1343	0.1343	0.141	0.1606	0.178	0.1915	0.1994	0.2009	0.1962	0.1865	0.1743	0.1623	0.1522	0.1449	0.1401	0.1373	0.1357	0.1349	0.1346	0.1344	#_natM1
+#_Age_0	Age_1	Age_2	Age_3	Age_4	Age_5	Age_6	Age_7	Age_8	Age_9	Age_10	Age_11	Age_12	Age_13	Age_14	Age_15	Age_16	Age_17	Age_18	Age_19	Age_20	Age_21	Age_22	Age_23	Age_24	Age_25	Age_26	Age_27  Age_28
+0.3358 0.3358	0.2955	0.2552	0.2149	0.1746	0.1343	0.1343	0.1343	0.1343	0.1343	0.141	0.1606	0.178	0.1915	0.1994	0.2009	0.1962	0.1865	0.1743	0.1623	0.1522	0.1449	0.1401	0.1373	0.1357	0.1349	0.1346	0.1344	#_natM1
 3 # GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr;5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
 0 #_Age(post-settlement)_for_L1;linear growth below this
 999 #_Growth_Age_for_L2 (999 to use as Linf)
 -999 #_exponential decay for growth above maxage (value should approx initial Z; -999 replicates 3.24; -998 to not allow growth above maxage)
 0 #_placeholder for future growth feature
 11 # number of K multipliers to read
-1 2 3 4 5 6 7 8 9 10 11 # ages for K multiplier
+2 3 4 5 6 7 8 9 10 11 12 # ages for K multiplier
 #
 0 #_SD_add_to_LAA (set to 0.1 for SS2 V1.x compatibility)
 0 #_CV_Growth_Pattern:  0 CV=f(LAA); 1 CV=F(A); 2 SD=F(LAA); 3 SD=F(A); 4 logSD=F(A)
 3 #_maturity_option:  1=length logistic; 2=age logistic; 3=read age-maturity matrix by growth_pattern; 4=read age-fecundity; 5=disabled; 6=read length-maturity
 # Age Maturity or Age fecundity:
-#_Age_0	Age_1	Age_2	Age_3	Age_4	Age_5	Age_6	Age_7	Age_8	Age_9	Age_10	Age_11	Age_12	Age_13	Age_14	Age_15	Age_16	Age_17	Age_18	Age_19	Age_20	Age_21	Age_22	Age_23	Age_24	Age_25	Age_26	Age_27
-0	0	0	0	0.1	0.15	0.2	0.3	0.5	0.7	0.9	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	#_Age_Maturity1
+#_Age_0	Age_1	Age_2	Age_3	Age_4	Age_5	Age_6	Age_7	Age_8	Age_9	Age_10	Age_11	Age_12	Age_13	Age_14	Age_15	Age_16	Age_17	Age_18	Age_19	Age_20	Age_21	Age_22	Age_23	Age_24	Age_25	Age_26	Age_27  Age_28
+0   0	0	0	0	0.1	0.15	0.2	0.3	0.5	0.7	0.9	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	#_Age_Maturity1
 0 #_First_Mature_Age
 1 #_fecundity option:(1)eggs=Wt*(a+b*Wt);(2)eggs=a*L^b;(3)eggs=a*Wt^b; (4)eggs=a+b*L; (5)eggs=a+b*W
 0 #_hermaphroditism option:  0=none; 1=female-to-male age-specific fxn; -1=male-to-female age-specific fxn
@@ -57,18 +57,18 @@
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
   5	 40	       22	0	0	0	-3	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1          
  90	200	      145	0	0	0	-3	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1          
-0.1	0.7	    0.455	0	0	0	-3	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1          
-  0	  2	      0.5	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_1_Fem_GP_1            
-  0	  2	     0.75	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_2_Fem_GP_1            
-  0	  2	        1	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_3_Fem_GP_1            
-  0	  2	        1	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_4_Fem_GP_1            
-  0	  2	        1	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_5_Fem_GP_1            
-  0	  2	      1.8	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_6_Fem_GP_1            
-  0	  2	      1.8	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_7_Fem_GP_1            
-  0	  2	      1.2	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_8_Fem_GP_1            
-  0	  2	      1.2	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_9_Fem_GP_1            
-  0	  2	        1	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_10_Fem_GP_1           
-  0	  2	        1	0	0	0	-3	0	0	0	0	0	0	0	#_Age_K_11_Fem_GP_1           
+0.1	0.7	    0.11375	0	0	0	-3	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1          
+  0   2       0.5   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_2_Fem_GP_1            
+  0   2      0.75   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_3_Fem_GP_1 
+  0   2         1   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_4_Fem_GP_1            
+  0   2         1   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_5_Fem_GP_1            
+  0   2         1   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_6_Fem_GP_1            
+  0   2       1.8   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_7_Fem_GP_1            
+  0   2       1.8   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_8_Fem_GP_1            
+  0   2       1.2   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_9_Fem_GP_1            
+  0   2       1.2   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_10_Fem_GP_1            
+  0   2         1   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_11_Fem_GP_1           
+  0   2         1   0   0   0   -3  0   0   0   0   0   0   0   #_Age_K_12_Fem_GP_1          
   0	  2	      0.1	0	0	0	-3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1           
   0	  2	      0.1	0	0	0	-3	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1             
   0	  1	2.459e-05	0	0	0	-3	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1            
@@ -77,7 +77,7 @@
  -2	  2	     -0.5	0	0	0	-3	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1          
   0	  2	        1	0	0	0	-3	0	0	0	0	0	0	0	#_Eggs_scalar_Fem_GP_1        
   0	  1	        0	0	0	0	-3	0	0	0	0	0	0	0	#_Eggs_exp_wt_Fem_GP_1        
- -4	  4	        0	0	0	0	-3	0	0	0	0	0	0	0	#_RecrDist_GP_1_area_1_month_1
+ -15	  15	        0	0	0	0	-3	0	0	0	0	0	0	0	#_RecrDist_GP_1_area_1_month_1
   1	  1	        1	0	0	0	-3	0	0	0	0	0	0	0	#_CohortGrowDev               
   0	  1	      0.5	0	0	0	-3	0	0	0	0	0	0	0	#_FracFemale_GP_1             
 #_no timevary MG parameters
@@ -91,11 +91,11 @@
 0 # 0/1 to use steepness in initial equ recruitment calculation
 0 # future feature: 0/1 to make realized sigmaR a function of SR curvature
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn # parm_name
-  5	15	   10 	  0	0	0	 1	0	0	0	0	0	0	0	#_SR_LN(R0)  
-0.2	 1	  0.8	   0	0	0	-1	0	0	0	0	0	0	0	#_SR_BH_steep
-  0	 2	  0.6    0	0	0	-2	0	0	0	0	0	0	0	#_SR_sigmaR  
- -5	 5	    0	   0	0	0	-1	0	0	0	0	0	0	0	#_SR_regime  
-  0	 0	    0	   0	0	0	-1	0	0	0	0	0	0	0	#_SR_autocorr
+  5	25	  11.5 	  0	0	0	 1	0	0	0	0	0	0	0	#_SR_LN(R0)  
+0.2	 1	  0.8	     0	0	0	-1	0	0	0	0	0	0	0	#_SR_BH_steep
+  0	 2	  0.6      0	0	0	-2	0	0	0	0	0	0	0	#_SR_sigmaR  
+ -5	 5	    0	     0	0	0	-1	0	0	0	0	0	0	0	#_SR_regime  
+  0	 0	    0	     0	0	0	-1	0	0	0	0	0	0	0	#_SR_autocorr
 #_no timevary SR parameters
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
 1080 # first year of main recr_devs; early devs can preceed this era
@@ -106,11 +106,11 @@
 -2 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1074.6   #_last_early_yr_nobias_adj_in_MPD 
-1174.0   #_first_yr_fullbias_adj_in_MPD 
-1221.0   #_last_yr_fullbias_adj_in_MPD 
-1231.8   #_first_recent_yr_nobias_adj_in_MPD 
-0.4517  #_max_bias_adj_in_MPD (1.0 to mimic pre-2009 models) 
+1046.7   #_last_early_yr_nobias_adj_in_MPD 
+1147.0   #_first_yr_fullbias_adj_in_MPD 
+1216.5   #_last_yr_fullbias_adj_in_MPD 
+1253.3   #_first_recent_yr_nobias_adj_in_MPD 
+0.5487  #_max_bias_adj_in_MPD (1.0 to mimic pre-2009 models) 
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
