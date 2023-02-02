@@ -154,10 +154,10 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, 
   
   if(use_tags) {
     OutControlFile$TG_custom = 1
-    OutControlFile$TG_Loss_init = data.frame(LO = -10, HI = 10, INIT = rep(-7, times = myDataFile$N_tag_groups), PRIOR = -7, PR_SD = 0.001,
+    OutControlFile$TG_Loss_init = data.frame(LO = -10, HI = 10, INIT = rep(-2, times = myDataFile$N_tag_groups), PRIOR = -7, PR_SD = 0.001,
                                       PR_type = 1, PHASE = -4, env_var = 0,
                                       dev_link = 0, dev_minyr = 0, dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
-    OutControlFile$TG_Loss_chronic = data.frame(LO = -10, HI = 10, INIT = rep(-3.5, times = myDataFile$N_tag_groups), PRIOR = -7, PR_SD = 0.001,
+    OutControlFile$TG_Loss_chronic = data.frame(LO = -10, HI = 10, INIT = rep(-4, times = myDataFile$N_tag_groups), PRIOR = -7, PR_SD = 0.001,
                                       PR_type = 1, PHASE = -4, env_var = 0,
                                       dev_link = 0, dev_minyr = 0, dev_maxyr = 0, dev_PH = 0, Block = 0, Block_Fxn = 0)
     OutControlFile$TG_overdispersion = data.frame(LO = 1, HI = 10, INIT = rep(7, times = myDataFile$N_tag_groups), PRIOR = 2, PR_SD = 0.001,
