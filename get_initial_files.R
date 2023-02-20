@@ -98,7 +98,7 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, 
       if(is.null(dest_area)) stop("'dest_area' is required.")
       OutControlFile$firstAgeMove = 1
       OutControlFile$moveDef = data.frame(seas = 1, morph = 1, source = source_area,
-                                          dest = dest_area, age = 1, age2 = 28)
+                                          dest = dest_area, age = 8, age2 = 9)
     }
   }
   

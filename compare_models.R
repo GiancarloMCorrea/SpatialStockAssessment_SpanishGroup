@@ -12,15 +12,14 @@ require(ss3diags)
 
 # Model information:
 type_model = '4A_25_ageS_PY_CPUEst_tags_move'
-subfolder = 'dat_4A_1'
+subfolder = 'dat_4A_2'
 selex_type = 2 #1 = length, 2 = age
 
 # Path name:
 mod_path = paste0(saveDir, '/', file.path(type_model, subfolder))
   
 # Read report:
-replist = SS_output(dir = mod_path,
-                      covar=TRUE, verbose = FALSE, printstats = FALSE)
+replist = SS_output(dir = mod_path, covar=TRUE, verbose = FALSE, printstats = FALSE)
 
 ## Plot
 SS_plots(replist) ## html output
@@ -55,26 +54,21 @@ SSexecutivesummary(replist)
 # Models to compare (age selex 1 Area): only models that converged
 #type_model = c('1A_25_ageS_PY', '1A_25_ageS_PY_CPUEst')
 #type_model = c('1A_25_lenS_PY', '1A_25_lenS_PY_CPUEst', '1A_25_lenS_PY_CPUEst_tags', '1A_25_lenS_PY_tags')
-type_model = c('1A_25_ageS_PY_CPUEst', '1A_25_ageS_PY_CPUEst_tags')
-subfolder = 'dat_1A_1'
-plot_name = '1A_25_includetags'
+type_model = c('4A_25_ageS_PY_CPUEst', '4A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_move', '4A_25_ageS_PY_CPUEst_tags_move')
+subfolder = c('dat_4A_3', 'dat_4A_3')
+plot_name = '4A_25'
 
-all_models = SSgetoutput(dirvec = paste0(saveDir, '/', file.path(type_model, subfolder)), getcovar = FALSE)
+all_models = SSgetoutput(dirvec = paste0(saveDir, '/', file.path(type_model, subfolder)))
 summary_models = SSsummarize(biglist = all_models)
 summary_models$maxgrad
+summary_models$likelihoods
 # Make plots:
-png(file=paste0('figures/', plot_name, '_SSB.png'), width = 300, height = 200, units = 'mm', res = 500)
-par(mfrow=c(1,1))
-SSplotComparisons(summaryoutput = summary_models, subplots = 1, legendlabels = type_model)
-dev.off()
+SSplotComparisons(summaryoutput = summary_models, subplots = 1, legendlabels = type_model, print = TRUE, 
+                  plotdir = 'figures', filenameprefix = plot_name)
 
-png(file=paste0('figures/', plot_name, '_F.png'), width = 300, height = 200, units = 'mm', res = 500)
-par(mfrow=c(1,1))
-SSplotComparisons(summaryoutput = summary_models, subplots = 7, legendlabels = type_model)
-dev.off()
+SSplotComparisons(summaryoutput = summary_models, subplots = 7, legendlabels = type_model, print = TRUE, 
+                  plotdir = 'figures', filenameprefix = plot_name)
 
-png(file=paste0('figures/', plot_name, '_rec.png'), width = 300, height = 200, units = 'mm', res = 500)
-par(mfrow=c(1,1))
-SSplotComparisons(summaryoutput = summary_models, subplots = 9, legendlabels = type_model)
-dev.off()
+SSplotComparisons(summaryoutput = summary_models, subplots = 9, legendlabels = type_model, print = TRUE, 
+                  plotdir = 'figures', filenameprefix = plot_name)
 

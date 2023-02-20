@@ -16,7 +16,7 @@ require(scatterpie)
 require(gridExtra)
 # -------------------------------------------------------------------------
 # Read data from Github:
-this_url = "https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_221cell_observations_1-100_ESS_00x.RData"
+this_url = "https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_221cell_observations_1-100_ESS_25.RData"
 mydata = Rfssa::load_github_data(github_data_url = this_url)
 
 

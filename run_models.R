@@ -13,22 +13,33 @@ require(Rfssa)
 require(doSNOW)
 require(parallel)
 source('get_initial_files.R')
-nCoresRemain = 5
+nCores = 5
 nSim = 1:5 # sequence of replicates to run
 
 # Important parameters to run models:
 Nsamp = '25'
-n_areas = 1
-selType = 'age'
-use_CPUEst = FALSE
-use_tags = FALSE
-N_moveDef = 0 # 4 for 4 area model with movement
+n_areas = 4
+selType = 'age' # len or age
+use_CPUEst = TRUE
+use_tags = TRUE
 use_recdist_time = FALSE
+N_moveDef = 4 
+# N_moveDef: 
+# - 0 for no movement or 1 area model. 
+# - 8 for 4 area model with movement: 1-2, 1-4, 3-4, and 2-3
+# - 6 for 4 area model with movement: 1-2, 1-4, 3-4 or 2-3
+# - 4 for 4 area model with movement: 1-2, 1-4
+# Movement definitions (only used if N_moveDef > 0):
+typeMov = 4 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
+
 
 # -------------------------------------------------------------------------
 # Read data from Github:
-this_url = paste0("https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_", n_areas,"area_observations_1_100_ESS_", Nsamp,".RData")
-mydata = Rfssa::load_github_data(github_data_url = this_url)
+# this_url = paste0("https://github.com/aaronmberger-nwfsc/Spatial-Assessment-Modeling-Workshop/blob/main/data/YFT_", n_areas,"area_observations_1_100_ESS_", Nsamp,".RData")
+# mydata = Rfssa::load_github_data(github_data_url = this_url)
+# Read downloaded data:
+this_file = paste0("sim_data/YFT_", n_areas,"area_observations_1_100_ESS_", Nsamp,".RData")
+mydata = load(this_file)
 
 
 # -------------------------------------------------------------------------
@@ -38,6 +49,7 @@ extra_name = ''
 if(use_CPUEst) extra_name = paste0(extra_name, '_CPUEst')
 if(use_tags) extra_name = paste0(extra_name, '_tags')
 if(N_moveDef > 0) extra_name = paste0(extra_name, '_move')
+if(N_moveDef > 0) extra_name = paste0(extra_name, 'Type', typeMov)
 if(use_recdist_time > 0) extra_name = paste0(extra_name, '_RDTime')
 type_model = paste0(n_areas, 'A_', Nsamp,'_', selType,'S_PY', extra_name)
 dir.create(path = file.path(saveDir, type_model))
@@ -50,12 +62,26 @@ if(n_areas == 1){
 }
 if(n_areas == 4){
   RecDistInit = c(0,0,0,0)
-  RecDistPhase = c(3,3,-3,3)
+  RecDistPhase = c(3,-3,3,3)
 }
 # Information for movement:
 MovePhase = 8
-source_area = c(1,1,2,4)
-dest_area =   c(2,4,1,1)
+if(typeMov == 1) {
+  source_area = c(1,2,4,1,4,3,2,3)
+  dest_area =   c(2,1,1,4,3,4,3,2)
+}
+if(typeMov == 2) {
+  source_area = c(1,2,4,1,4,3)
+  dest_area =   c(2,1,1,4,3,4)
+}
+if(typeMov == 3) {
+  source_area = c(1,2,4,1,2,3)
+  dest_area =   c(2,1,1,4,3,2)
+}
+if(typeMov == 4) {
+  source_area = c(1,2,4,1)
+  dest_area =   c(2,1,1,4)
+}
 
 # -------------------------------------------------------------------------
 # Define selex parameters:
@@ -193,12 +219,10 @@ for(i in nSim) {
                          overwrite = TRUE)
   
 }
-# 
-# # 
+ 
 # # # -------------------------------------------------------------------------
 # # # Detect number of cores:
-cores = detectCores()
-cl = makeCluster(cores[1] - nCoresRemain)
+cl = makeCluster(nCores)
 registerDoSNOW(cl)
 
 
@@ -247,3 +271,5 @@ foreach(ix = nSim) %dopar% {
 }
 
 stopCluster(cl)
+
+
