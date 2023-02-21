@@ -38,7 +38,7 @@ for(j in seq_along(dir_mods)) {
     B0 = mean(tmp_mod$timeseries$Bio_all[tmp_mod$timeseries$Era == 'VIRG'])
     Bstatus = mean(tmp_mod$timeseries$Bio_all[tmp_mod$timeseries$Yr == tmp_mod$endyr])/B0
     R0 = mean(tmp_mod$timeseries$Recruit_0[tmp_mod$timeseries$Era == 'VIRG'])
-    # Other reference points?
+    # Another reference points?
     dq_df = data.frame(iter = iter_name, em = label_mods[j], B0 = B0, Bstatus = Bstatus, 
                        R0 = R0, grad = tmp_mod$maximum_gradient_component)
     # Time series --------------------------
@@ -56,11 +56,18 @@ for(j in seq_along(dir_mods)) {
     fish_df = cbind(fish_df, tidyr::gather(prevCatch, 'Fleet2', 'Catch', 1:ncol(prevCatch)))
     fish_df$iter = iter_name
     fish_df$em = label_mods[j]
+    
+    # Save results:
+    dq_all[[cList]] = dq_df
+    ts_all[[cList]] = ts_df
+    fish_all[[cList]] = fish_df
+    
     # Recruitment app and movement rates (only for 4A model):
     if(tmp_mod$nareas > 1) {
       recD_df = tmp_mod$recruitment_dist$recruit_dist[,c(4,6,9)] # needs to change when R dist is time varying
       recD_df$iter = iter_name
       recD_df$em = label_mods[j]
+      recD_all[[cList]] = recD_df
     }
     if(!is.null(tmp_mod$movement)) {
       prevMov = tmp_mod$movement[tmp_mod$movement$age0 == 0, ] # age0 == 0 also in year configuration?
@@ -69,13 +76,8 @@ for(j in seq_along(dir_mods)) {
       matureRate = prevMov[,grep(pattern = paste0('age', prevMov$maxage[1]), x = colnames(prevMov))]
       mov_df = data.frame(iter = iter_name, em = label_mods[j], Seas = prevMov$Seas,
                           movDef = movDef, inmatureRate = inmatureRate, matureRate = matureRate)
+      mov_all[[cList]] = mov_df
     }
-
-    dq_all[[cList]] = dq_all
-    ts_all[[cList]] = ts_all
-    fish_all[[cList]] = fish_all
-    recD_all[[cList]] = recD_all
-    mov_all[[cList]] = mov_all
     
     cList = cList+1
     print(k)
