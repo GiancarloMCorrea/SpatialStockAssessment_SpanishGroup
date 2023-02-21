@@ -14,7 +14,7 @@ saveFolder = 'replicates_data' # folder to save produced RData from this script
 # -------------------------------------------------------------------------
 # Main directories (model configurations to read):
 dir_mods = c('1A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_tags_moveType1')
-label_mods = c('1A_25_PY', '4A_25_PY') # labels shown in plots
+label_mods = c('1A_25_PY', '4A_25_PY') # labels shown in plots. as order as dir_mods
 
 # -------------------------------------------------------------------------
 # Loop to read results from all replicates:
@@ -38,17 +38,22 @@ for(j in seq_along(dir_mods)) {
     B0 = mean(tmp_mod$timeseries$Bio_all[tmp_mod$timeseries$Era == 'VIRG'])
     Bstatus = mean(tmp_mod$timeseries$Bio_all[tmp_mod$timeseries$Yr == tmp_mod$endyr])/B0
     R0 = mean(tmp_mod$timeseries$Recruit_0[tmp_mod$timeseries$Era == 'VIRG'])
-    # Another reference points?
+    SSBmsy = tmp_mod$derived_quants[which(tmp_mod$derived_quants$Label == 'SSB_MSY'), 'Value']
+    Fmsy = tmp_mod$derived_quants[which(tmp_mod$derived_quants$Label == 'annF_MSY'), 'Value']
+    MSY = tmp_mod$derived_quants[which(tmp_mod$derived_quants$Label == 'Dead_Catch_MSY'), 'Value']
     dq_df = data.frame(iter = iter_name, em = label_mods[j], B0 = B0, Bstatus = Bstatus, 
-                       R0 = R0, grad = tmp_mod$maximum_gradient_component)
+                       R0 = R0, SSBmsy = SSBmsy, Fmsy = Fmsy, MSY = MSY,
+                       grad = tmp_mod$maximum_gradient_component)
     # Time series --------------------------
     thisYear = tmp_mod$timeseries$Yr %in% tmp_mod$startyr:tmp_mod$endyr
     SSB = tmp_mod$timeseries$SpawnBio[thisYear]
     TotB = tmp_mod$timeseries$Bio_all[thisYear]
     Rec = tmp_mod$timeseries$Recruit_0[thisYear]
+    Depl = TotB/B0
     ts_df = data.frame(iter = iter_name, em = label_mods[j], Area = tmp_mod$timeseries$Area[thisYear],
                        Yr = tmp_mod$timeseries$Yr[thisYear], Seas = tmp_mod$timeseries$Seas[thisYear],
-                       SSB = SSB, TotB = TotB, Rec = Rec)
+                       SSB = SSB, TotB = TotB, Rec = Rec, Depl = Depl)
+    # Add time series of depletion
     # Fishing mortality and catch ----------
     prevF = tmp_mod$timeseries[thisYear, c(2, 4, grep(pattern = 'F:_', x = colnames(tmp_mod$timeseries)))]
     fish_df = tidyr::gather(prevF, 'Fleet', 'FishM', 3:ncol(prevF))

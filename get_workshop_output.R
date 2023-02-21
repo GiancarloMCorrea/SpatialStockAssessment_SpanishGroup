@@ -11,14 +11,14 @@ SS_ICES_wkshp = list()
 SS_ICES_team = 'SS_ICES'
 SS_ICES_status = 'prelim'
 SS_ICES_model_types = 'pan and spatial'
-SS_ICES_notes = ''
+SS_ICES_notes = 'two configurations (pan and spatial): year and pseudoyear. Runs without hessian so CV not reported. Only convergent runs are reported. '
 SS_ICES_ssb_units = 'weight'
 SS_ICES_recr_units = '1000s of fish'
 SS_ICES_F_units = 'instant apical F'
 SS_ICES_catch_units = 'numbers'
 SS_ICES_BRPS_calc = 'yes'
 SS_ICES_b0_calc = 'yes'
-SS_ICES_BRPs_type = ''
+SS_ICES_BRPs_type = 'depletion, Bmsy, Fmsy, MSY'
 
 
 SS_ICES_pan_nsims = 100
@@ -27,7 +27,7 @@ SS_ICES_pan_nyrs = c(64, 256)
 SS_ICES_pan_flts = 7
 SS_ICES_pan_flts_names = c('fishing_gi', 'fishing_hd', 'fishing_ll', 'fishing_other', 
                        'fishing_bb', 'fishing_ps', 'fishing_trol')
-SS_ICES_pan_b0 = 
+#SS_ICES_pan_b0 = 
 
 
 
