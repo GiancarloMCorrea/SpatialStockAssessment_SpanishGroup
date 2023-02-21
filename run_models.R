@@ -23,14 +23,14 @@ selType = 'age' # len or age
 use_CPUEst = TRUE
 use_tags = TRUE
 use_recdist_time = FALSE
-N_moveDef = 4 
+N_moveDef = 6
 # N_moveDef: 
 # - 0 for no movement or 1 area model. 
 # - 8 for 4 area model with movement: 1-2, 1-4, 3-4, and 2-3
 # - 6 for 4 area model with movement: 1-2, 1-4, 3-4 or 2-3
 # - 4 for 4 area model with movement: 1-2, 1-4
 # Movement definitions (only used if N_moveDef > 0):
-typeMov = 4 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
+typeMov = 3 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
 
 
 # -------------------------------------------------------------------------

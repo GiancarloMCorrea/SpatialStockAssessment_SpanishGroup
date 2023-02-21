@@ -11,8 +11,8 @@ require(r4ss)
 require(ss3diags)
 
 # Model information:
-type_model = '4A_25_ageS_PY_CPUEst_tags_move'
-subfolder = 'dat_4A_2'
+type_model = '4A_25_ageS_PY_CPUEst_tags_moveType1'
+subfolder = 'dat_4A_4'
 selex_type = 2 #1 = length, 2 = age
 
 # Path name:
@@ -54,8 +54,8 @@ SSexecutivesummary(replist)
 # Models to compare (age selex 1 Area): only models that converged
 #type_model = c('1A_25_ageS_PY', '1A_25_ageS_PY_CPUEst')
 #type_model = c('1A_25_lenS_PY', '1A_25_lenS_PY_CPUEst', '1A_25_lenS_PY_CPUEst_tags', '1A_25_lenS_PY_tags')
-type_model = c('4A_25_ageS_PY_CPUEst', '4A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_move', '4A_25_ageS_PY_CPUEst_tags_move')
-subfolder = c('dat_4A_3', 'dat_4A_3')
+type_model = c('4A_25_ageS_PY_CPUEst_tags_moveType1', '4A_25_ageS_PY_CPUEst_tags_moveType2', '4A_25_ageS_PY_CPUEst_tags_moveType3', '4A_25_ageS_PY_CPUEst_tags_moveType4')
+subfolder = rep('dat_4A_5', times = 4)
 plot_name = '4A_25'
 
 all_models = SSgetoutput(dirvec = paste0(saveDir, '/', file.path(type_model, subfolder)))
