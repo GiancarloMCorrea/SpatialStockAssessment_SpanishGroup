@@ -55,7 +55,7 @@ SSexecutivesummary(replist)
 #type_model = c('1A_25_ageS_PY', '1A_25_ageS_PY_CPUEst')
 #type_model = c('1A_25_lenS_PY', '1A_25_lenS_PY_CPUEst', '1A_25_lenS_PY_CPUEst_tags', '1A_25_lenS_PY_tags')
 type_model = c('4A_25_ageS_PY_CPUEst_tags_moveType1', '4A_25_ageS_PY_CPUEst_tags_moveType2', '4A_25_ageS_PY_CPUEst_tags_moveType3', '4A_25_ageS_PY_CPUEst_tags_moveType4')
-subfolder = rep('dat_4A_5', times = 4)
+subfolder = rep('dat_4A_3', times = 4)
 plot_name = '4A_25'
 
 all_models = SSgetoutput(dirvec = paste0(saveDir, '/', file.path(type_model, subfolder)))
