@@ -1,7 +1,7 @@
 
 get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, Qphase = 3, use_tags = TRUE,
-                              N_moveDef = 0, RecDistPhase = -4, RecDistInit = 0, MovPhase = -4, 
-                              source_area = NULL, dest_area = NULL, RecDistTemp = FALSE) {
+                              N_moveDef = 0, RecDistPhase = -4, RecDistInit = 0, RecDistTemp = FALSE, recDistAreas = NULL,
+                              MovPhase = -4, source_area = NULL, dest_area = NULL) {
 
   # INIT INFO:
   
@@ -86,8 +86,8 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, 
   OutControlFile$N_areas = myDataFile$N_areas
   OutControlFile$Nfleets = myDataFile$Nfleet + myDataFile$Nsurveys
   OutControlFile$fleetnames = myDataFile$fleetnames
-  OutControlFile$recr_dist_read = myDataFile$N_areas
-  OutControlFile$recr_dist_pattern = data.frame(GPattern = 1, month = 1, area = 1:myDataFile$N_areas, 
+  OutControlFile$recr_dist_read = length(recDistAreas)
+  OutControlFile$recr_dist_pattern = data.frame(GPattern = 1, month = 1, area = recDistAreas, 
                                                 age = 1)
   
   # Movment information
@@ -102,18 +102,17 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, 
     }
   }
   
-  x_rep = c(rep(1, times = 22), myDataFile$N_areas, 1,1)
+  x_rep = c(rep(1, times = 22), length(recDistAreas), 1,1)
   MGdf = OutControlFile$MG_parms
-  MGdf_new = MGdf %>% 
-              slice(rep(1:nrow(MGdf), times= x_rep))
+  MGdf_new = MGdf %>% slice(rep(1:nrow(MGdf), times= x_rep))
   OutControlFile$MG_parms = MGdf_new
-  OutControlFile$MG_parms[23:(22+myDataFile$N_areas),3] = RecDistInit # Init values
-  OutControlFile$MG_parms[23:(22+myDataFile$N_areas),7] = RecDistPhase # Phase
+  OutControlFile$MG_parms[23:(22+length(recDistAreas)),3] = RecDistInit # Init values
+  OutControlFile$MG_parms[23:(22+length(recDistAreas)),7] = RecDistPhase # Phase
   if(RecDistTemp) { # Time variability in recruitment distribution
-    OutControlFile$MG_parms[23:(22+myDataFile$N_areas),9] = c(1,1,0,1) 
-    OutControlFile$MG_parms[23:(22+myDataFile$N_areas),10] = c(1100,1100,0,1100) 
-    OutControlFile$MG_parms[23:(22+myDataFile$N_areas),11] = c(1256,1256,0,1256) 
-    OutControlFile$MG_parms[23:(22+myDataFile$N_areas),12] = c(3,3,0,3) 
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),9] = c(1,1,1,1)[recDistAreas]
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),10] = c(1120,1120,1120,1120)[recDistAreas] 
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),11] = c(1256,1256,1256,1256)[recDistAreas] 
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),12] = c(-3,3,3,3)[recDistAreas]
   }
 
   if(N_moveDef > 0) { # adding movement parameters
@@ -127,8 +126,10 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, 
   }
 
   if(RecDistTemp) {
-    OutControlFile$MG_parms_tv = data.frame(LO = -99, HI = 99, INIT = c(1,0,1,0,1,0), 
-                                            PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = c(3,-3,3,-3,3,-3))
+    init_vec = rep(c(1,0), times = length(recDistAreas) - 1)
+    phase_vec = rep(c(3,-3), times = length(recDistAreas) - 1)
+    OutControlFile$MG_parms_tv = data.frame(LO = -99, HI = 99, INIT = init_vec, 
+                                            PRIOR = 0, PR_SD = 0, PR_type = 0, PHASE = phase_vec)
   }
 
   # Catchability

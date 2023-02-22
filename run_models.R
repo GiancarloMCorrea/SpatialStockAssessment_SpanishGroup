@@ -30,8 +30,8 @@ N_moveDef = 6
 # - 6 for 4 area model with movement: 1-2, 1-4, 3-4 or 2-3
 # - 4 for 4 area model with movement: 1-2, 1-4
 # Movement definitions (only used if N_moveDef > 0):
-typeMov = 3 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
-
+typeMov = 2 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
+recDistAreas = c(1,2,4) # for 1A and 4A
 
 # -------------------------------------------------------------------------
 # Read data from Github:
@@ -48,6 +48,7 @@ base_folder = paste0('base_', selType,'Selex')
 extra_name = ''
 if(use_CPUEst) extra_name = paste0(extra_name, '_CPUEst')
 if(use_tags) extra_name = paste0(extra_name, '_tags')
+if(n_areas > 1) extra_name = paste0(extra_name, '_R', paste0(recDistAreas, collapse = ''))
 if(N_moveDef > 0) extra_name = paste0(extra_name, '_move')
 if(N_moveDef > 0) extra_name = paste0(extra_name, 'Type', typeMov)
 if(use_recdist_time > 0) extra_name = paste0(extra_name, '_RDTime')
@@ -60,9 +61,11 @@ if(n_areas == 1){
   RecDistInit = 0
   RecDistPhase = -7
 }
-if(n_areas == 4){
+if(n_areas > 1){
   RecDistInit = c(0,0,0,0)
-  RecDistPhase = c(3,-3,3,3)
+  RecDistInit = RecDistInit[recDistAreas]
+  RecDistPhase = c(-3,3,3,3)
+  RecDistPhase = RecDistPhase[recDistAreas]
 }
 # Information for movement:
 MovePhase = 8
@@ -183,7 +186,7 @@ for(i in nSim) {
                                selex_len = selex_len, selex_age = selex_age, selex_df = selex_df,
                                use_tags = use_tags, RecDistPhase = RecDistPhase, MovPhase = MovePhase,
                                N_moveDef = N_moveDef, source_area = source_area, dest_area = dest_area,
-                               RecDistTemp = use_recdist_time)
+                               RecDistTemp = use_recdist_time, recDistAreas = recDistAreas)
   
   # Update standardized CPUE:
   if(use_CPUEst) {
