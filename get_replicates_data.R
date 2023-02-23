@@ -13,7 +13,7 @@ saveFolder = 'replicates_data' # folder to save produced RData from this script
 
 # -------------------------------------------------------------------------
 # Main directories (model configurations to read):
-dir_mods = c('1A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_tags_moveType1')
+dir_mods = c('1A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_tags_R123_moveType2')
 label_mods = c('1A_25_PY', '4A_25_PY') # labels shown in plots. as order as dir_mods
 
 # -------------------------------------------------------------------------
@@ -54,10 +54,9 @@ for(j in seq_along(dir_mods)) {
     ts_df = data.frame(iter = iter_name, em = label_mods[j], Area = tmp_mod$timeseries$Area[thisYear],
                        Yr = tmp_mod$timeseries$Yr[thisYear], Seas = tmp_mod$timeseries$Seas[thisYear],
                        SSB = SSB, TotB = TotB, Rec = Rec)
-    # Add time series of depletion
     # Fishing mortality and catch ----------
-    prevF = tmp_mod$timeseries[thisYear, c(2, 4, grep(pattern = 'F:_', x = colnames(tmp_mod$timeseries)))]
-    fish_df = tidyr::gather(prevF, 'Fleet', 'FishM', 3:ncol(prevF))
+    prevF = tmp_mod$timeseries[thisYear, c(1, 2, 4, grep(pattern = 'F:_', x = colnames(tmp_mod$timeseries)))]
+    fish_df = tidyr::gather(prevF, 'Fleet', 'FishM', 4:ncol(prevF))
     prevCatch = tmp_mod$timeseries[thisYear, grep(pattern = 'dead\\(N\\)', x = colnames(tmp_mod$timeseries))]
     fish_df = cbind(fish_df, tidyr::gather(prevCatch, 'Fleet2', 'Catch', 1:ncol(prevCatch)))
     fish_df$iter = iter_name
