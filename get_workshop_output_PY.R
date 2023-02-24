@@ -11,7 +11,9 @@ all_years = 1001:1256
 SS_ICES_team = 'SS_ICES'
 SS_ICES_status = 'prelim'
 SS_ICES_model_types = 'pan and spatial'
-SS_ICES_notes = 'two configurations (pan and spatial): year and pseudoyear. Runs without hessian so CV not reported. Only convergent runs are reported. '
+SS_ICES_notes = c('Configuration (pan and spatial): pseudoyear.', 
+                  'Runs without hessian so CV not reported.', 
+                  'Movement rates reported for inmature and mature fish.')
 SS_ICES_ssb_units = 'weight'
 SS_ICES_recr_units = '1000s of fish'
 SS_ICES_F_units = 'instant apical F'
@@ -36,10 +38,10 @@ SS_ICES_spat_nsims = 3
 SS_ICES_spat_rds_num = 1
 SS_ICES_spat_nyrs = 256
 SS_ICES_spat_nareas = 4
-SS_ICES_spat_flts = array(7, dim = c(1, SS_ICES_spat_nareas))
+SS_ICES_spat_flts = array(c(7,3,1,5), dim = c(1, SS_ICES_spat_nareas))
 SS_ICES_spat_flts_names = c('fishing_gi', 'fishing_hd', 'fishing_ll', 'fishing_other', 
                            'fishing_bb', 'fishing_ps', 'fishing_trol')
-SS_ICES_spat_nstate = 2
+SS_ICES_spat_nstate = 2 # mature or inmature (movement rates)
   
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
@@ -144,14 +146,11 @@ df_fish = save_data$fish[save_data$fish$em == this_model, ]
 df_fish = df_fish[order(df_fish$iter, df_fish$Yr),]
 df_fish$Fleet = as.numeric(gsub(pattern = 'F:_', replacement = '', x = df_fish$Fleet))
 
-SS_ICES_spat_F = array(data = NA, dim = c(1, SS_ICES_spat_nareas, 1,SS_ICES_spat_flts,1,SS_ICES_spat_nyrs, 1, SS_ICES_spat_nsims))
+SS_ICES_spat_F = array(df_fish$FishM, dim = c(1, SS_ICES_spat_nareas, 1,sum(SS_ICES_spat_flts),1,SS_ICES_spat_nyrs, 1, SS_ICES_spat_nsims))
+# NA for non convergent replicates:
+SS_ICES_spat_F[,,,,,,,non_conv_runs] = NA
 
-
-df_catch = df_fish %>% dplyr::group_by(iter, Yr) %>% dplyr::summarise(Catch = sum(Catch))
+df_catch = df_fish %>% dplyr::group_by(iter, Yr, Area) %>% dplyr::summarise(Catch = sum(Catch))
 SS_ICES_spat_catch = array(df_catch$Catch, dim = c(1, SS_ICES_spat_nareas, 1, SS_ICES_spat_nyrs, 1, SS_ICES_spat_nsims))
 # NA for non convergent replicates:
 SS_ICES_spat_catch[,,,,,non_conv_runs] = NA
-
-SS_ICES_spat_catch = array(data = NA, dim = c(1, SS_ICES_spat_nareas, 1, SS_ICES_spat_nyrs, 1, SS_ICES_spat_nsims))
-
-

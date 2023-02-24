@@ -43,7 +43,8 @@ for(j in seq_along(dir_mods)) {
     MSY = tmp_mod$derived_quants[which(tmp_mod$derived_quants$Label == 'Dead_Catch_MSY'), 'Value']
     Qpar = exp(tmp_mod$parameters$Value[grep(pattern = 'LnQ_base', x = tmp_mod$parameters$Label)])
     dq_df = data.frame(iter = iter_name, em = label_mods[j], 
-                       B0 = B0, Bstatus = Bstatus, Area = 1:length(B0),
+                       B0 = B0, Bstatus = Bstatus, Area = tmp_mod$timeseries$Area[tmp_mod$timeseries$Era == 'VIRG'], 
+                       Season = tmp_mod$timeseries$Seas[tmp_mod$timeseries$Era == 'VIRG'],
                        R0 = R0, SSBmsy = SSBmsy, Fmsy = Fmsy, MSY = MSY, Qpar = Qpar,
                        grad = tmp_mod$maximum_gradient_component)
     # Time series --------------------------
@@ -75,12 +76,11 @@ for(j in seq_along(dir_mods)) {
       recD_all[[cList]] = recD_df
     }
     if(!is.null(tmp_mod$movement)) {
-      prevMov = tmp_mod$movement[tmp_mod$movement$age0 == 0, ] # age0 == 0 also in year configuration?
-      movDef = paste0(prevMov$Source_area,' to ',prevMov$Dest_area)
-      inmatureRate = prevMov[,grep(pattern = paste0('age', prevMov$minage[1]), x = colnames(prevMov))]
-      matureRate = prevMov[,grep(pattern = paste0('age', prevMov$maxage[1]), x = colnames(prevMov))]
-      mov_df = data.frame(iter = iter_name, em = label_mods[j], Seas = prevMov$Seas,
-                          movDef = movDef, inmatureRate = inmatureRate, matureRate = matureRate)
+      prevMov = tmp_mod$movement
+      inmatureRate = prevMov[,'age2']
+      matureRate = prevMov[,ncol(prevMov)]
+      mov_df = data.frame(iter = iter_name, em = label_mods[j], Seas = prevMov$Seas, area1 =prevMov$Source_area,
+                          area2 = prevMov$Dest_area, inmatureRate = inmatureRate, matureRate = matureRate)
       mov_all[[cList]] = mov_df
     }
     
