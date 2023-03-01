@@ -13,7 +13,7 @@ saveFolder = 'replicates_data' # folder to save produced RData from this script
 
 # -------------------------------------------------------------------------
 # Main directories (model configurations to read):
-dir_mods = c('1A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_tags_R123_moveType2')
+dir_mods = c('1A_25_ageS_PY_CPUEst_tags', '4A_25_ageS_PY_CPUEst_tags_R124_moveType2_RDTime')
 label_mods = c('1A_25_PY', '4A_25_PY') # labels shown in plots. as order as dir_mods
 
 # -------------------------------------------------------------------------

@@ -98,7 +98,7 @@
   0	 0	    0	     0	0	0	-1	0	0	0	0	0	0	0	#_SR_autocorr
 #_no timevary SR parameters
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
-1120 # first year of main recr_devs; early devs can preceed this era
+1080 # first year of main recr_devs; early devs can preceed this era
 1250 # last year of main recr_devs; forecast devs start in following year
 2 #_recdev phase
 1 # (0/1) to read 13 advanced options

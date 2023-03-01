@@ -13,8 +13,8 @@ require(Rfssa)
 require(doSNOW)
 require(parallel)
 source('get_initial_files.R')
-nCores = 3
-nSim = 1:3 # sequence of replicates to run
+nCores = 10
+nSim = 51:100 # sequence of replicates to run
 
 # Important parameters to run models:
 Nsamp = '25'
@@ -22,7 +22,7 @@ n_areas = 4
 selType = 'age' # len or age
 use_CPUEst = TRUE
 use_tags = TRUE
-use_recdist_time = FALSE
+use_recdist_time = TRUE
 N_moveDef = 6
 # N_moveDef: 
 # - 0 for no movement or 1 area model. 
@@ -31,7 +31,7 @@ N_moveDef = 6
 # - 4 for 4 area model with movement: 1-2, 1-4
 # Movement definitions (only used if N_moveDef > 0):
 typeMov = 2 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
-recDistAreas = c(1,2,3) # for 1A and 4A
+recDistAreas = c(1,2,4) # for 1A and 4A
 
 # -------------------------------------------------------------------------
 # Read data from Github:

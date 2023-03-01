@@ -109,10 +109,10 @@ get_initial_files = function(sim_dat, ctl, dat, selex_len, selex_age, selex_df, 
   OutControlFile$MG_parms[23:(22+length(recDistAreas)),3] = RecDistInit # Init values
   OutControlFile$MG_parms[23:(22+length(recDistAreas)),7] = RecDistPhase # Phase
   if(RecDistTemp) { # Time variability in recruitment distribution
-    OutControlFile$MG_parms[23:(22+length(recDistAreas)),9] = c(1,1,1,1)[recDistAreas]
-    OutControlFile$MG_parms[23:(22+length(recDistAreas)),10] = c(1120,1120,1120,1120)[recDistAreas] 
-    OutControlFile$MG_parms[23:(22+length(recDistAreas)),11] = c(1256,1256,1256,1256)[recDistAreas] 
-    OutControlFile$MG_parms[23:(22+length(recDistAreas)),12] = c(-3,3,3,3)[recDistAreas]
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),9] = c(0,1,1,1)[recDistAreas]
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),10] = c(0,1080,1080,1080)[recDistAreas] 
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),11] = c(0,1250,1250,1250)[recDistAreas] 
+    OutControlFile$MG_parms[23:(22+length(recDistAreas)),12] = c(0,3,3,3)[recDistAreas]
   }
 
   if(N_moveDef > 0) { # adding movement parameters
