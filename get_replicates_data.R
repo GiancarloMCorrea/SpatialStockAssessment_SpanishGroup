@@ -8,7 +8,7 @@ require(dplyr)
 # Set working directory to source file location
 
 # This is the directory where you have your models:
-saveDir = 'C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup'
+saveDir = 'D:/' #C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup
 saveFolder = 'replicates_data' # folder to save produced RData from this script
 
 # -------------------------------------------------------------------------
