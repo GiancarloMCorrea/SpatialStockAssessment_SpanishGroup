@@ -11,8 +11,8 @@ require(r4ss)
 require(ss3diags)
 
 # Model information:
-type_model = '4A_25_ageS_PY_CPUEst_tags_moveType1'
-subfolder = 'dat_4A_4'
+type_model = '1A_25_ageS_PY_CPUEst_tags'
+subfolder = 'dat_1A_1'
 selex_type = 2 #1 = length, 2 = age
 
 # Path name:

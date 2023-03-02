@@ -12,7 +12,7 @@ require(ss3diags)
 library(icesAdvice)
 
 ### Model path
-type_model <- '4A_25_ageS_PY_CPUEst_tags_move' ## *CHANGE name
+type_model <- '4A_25_ageS_PY_CPUEst_tags_R124_moveType2_RDTime' ## *CHANGE name
 subfolder = 'dat_4A_1'
 mod_path = paste0(saveDir, '/', file.path(type_model, subfolder))
 
@@ -27,7 +27,7 @@ dir.create(plotdir_retro)
 
 ## SS.exe must be in the model folder
 
-yper = 0:-5 ## years period for retros
+yper = -1:-5 ## years period for retros
 
 r4ss::retro(dir=mod_path, oldsubdir="", newsubdir = "retros", extras="-nohess",
            subdirstart = "retro",years = yper, overwrite = TRUE, exe = "ss")

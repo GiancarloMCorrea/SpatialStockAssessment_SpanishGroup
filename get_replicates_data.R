@@ -8,7 +8,7 @@ require(dplyr)
 # Set working directory to source file location
 
 # This is the directory where you have your models:
-saveDir = 'D:/' #C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup
+saveDir = 'C:/Users/moroncog/Documents/StockAssessmentModels/SpatialStockAssessmentGroup'
 saveFolder = 'replicates_data' # folder to save produced RData from this script
 
 # -------------------------------------------------------------------------
@@ -58,7 +58,7 @@ for(j in seq_along(dir_mods)) {
     # Fishing mortality and catch ----------
     prevF = tmp_mod$timeseries[thisYear, c(1, 2, 4, grep(pattern = 'F:_', x = colnames(tmp_mod$timeseries)))]
     fish_df = tidyr::gather(prevF, 'Fleet', 'FishM', 4:ncol(prevF))
-    prevCatch = tmp_mod$timeseries[thisYear, grep(pattern = 'dead\\(N\\)', x = colnames(tmp_mod$timeseries))]
+    prevCatch = tmp_mod$timeseries[thisYear, grep(pattern = 'dead\\(B\\)', x = colnames(tmp_mod$timeseries))]
     fish_df = cbind(fish_df, tidyr::gather(prevCatch, 'Fleet2', 'Catch', 1:ncol(prevCatch)))
     fish_df$iter = iter_name
     fish_df$em = label_mods[j]
