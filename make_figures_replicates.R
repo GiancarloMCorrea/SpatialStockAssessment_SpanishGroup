@@ -43,6 +43,7 @@ data_conv = data_dq[data_dq$Season == 1 & data_dq$Area == 1, ] # only values for
 # Non-Convergence rate:
 nonconv_rate = data_conv %>% dplyr::group_by(em) %>% dplyr::summarise(nonconvrate = sum((grad > max_grad) | is.nan(R0))/max(iter))
 nonconv_rate$conv_rate = 1 - nonconv_rate$nonconvrate
+write.csv(x = nonconv_rate, file = 'figures/conv_rate.csv', row.names = FALSE)
 
 # Save nonconvergent replicates:
 data_conv = data_conv %>% mutate(replicate = paste0(em, '_', iter))
@@ -137,6 +138,15 @@ temp_fish = data_fish %>% dplyr::group_by(em, iter, Yr) %>% dplyr::summarise(Cat
 # Merge:
 temp_ts_2$totCatch = temp_fish$Catch
 temp_ts_2 = temp_ts_2 %>% mutate(expRate = totCatch/TotB)
+
+#Save table:
+table_1 = temp_ts_2 %>% dplyr::group_by(em, Yr) %>% dplyr::summarise(CVSSB = sd(SSB)/mean(SSB), 
+                                                                     CVR = sd(Rec)/mean(Rec),
+                                                                     CVexR = sd(expRate)/mean(expRate))
+table_1 = table_1 %>% dplyr::group_by(em) %>% dplyr::summarise(CVSSB = mean(CVSSB), CVR = mean(CVR), CVexR = mean(CVexR))
+write.csv(x = table_1, file = 'figures/table_CV.csv', row.names = FALSE)
+
+# Continue:
 temp_ts_2 = temp_ts_2 %>% select('em', 'Yr', 'iter', 'depletion', 'expRate')
 temp_ts_2 = tidyr::gather(temp_ts_2, 'variable', 'value', 4:5)
 temp_ts_2 = temp_ts_2 %>% dplyr::group_by(em, Yr, variable) %>% dplyr::summarise(q025 = quantile(value, probs = 0.025),
