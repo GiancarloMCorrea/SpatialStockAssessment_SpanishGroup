@@ -109,8 +109,8 @@ for(j in seq_along(mydata)) {
 }
 
 dir.create(path = "SPiCT results")
-save(Bio_spict_cpue_original,file=paste0("SPiCT results/Bio_spict_cpue_original.RData"))
-save(F_spict_cpue_original,file=paste0("SPiCT results/F_spict_cpue_original.RData"))
+save(Bio_spict_cpue_original,file=paste0("SPiCT results/Bio_spict.RData"))
+save(F_spict_cpue_original,file=paste0("SPiCT results/F_spict.RData"))
 save(Drp,file=paste0("SPiCT results/Drp.RData"))
 save(Srp,file=paste0("SPiCT results/Srp.RData"))
 
