@@ -14,13 +14,13 @@ myCols = c('#b9caff', '#ffff66', '#33ff93')
 myCols2 = c('#83a0f7', '#f4ee00', '#1cd83e')
 
 # Read model outputs for Y 1A model:
-load('replicates_data/Y_1A_25_final_all_replicates.RData')
+load('replicates_data/Y_1A_25_1982_all_replicates.RData')
 Y_1A = save_data
 Y_1A$dq$em = '1A_25_Y'
 Y_1A$ts$em = '1A_25_Y'
 Y_1A$fish$em = '1A_25_Y'
 # Read model outputs for Y 4A model:
-load('replicates_data/Y_4A_25_final_all_replicates.RData')
+load('replicates_data/Y_4A_25_base_all_replicates.RData')
 Y_4A = save_data
 Y_4A$dq$em = '4A_25_Y'
 Y_4A$ts$em = '4A_25_Y'
@@ -292,6 +292,7 @@ ggplot(data_plot[data_plot$Type2 == 'SPiCT',], aes(x = Yr, y = q50, ymin=q025, y
   xlab('') + ylab('Biomass (mt)') +
   geom_ribbon(aes(fill = Type2, color = Type2), alpha=.4, colour = NA) + 
   geom_line(aes(color = Type2), lwd=1) +
+  coord_cartesian(ylim = c(0, 20E+06)) +
   scale_fill_manual(values = myCols[3]) +
   scale_color_manual(values = myCols2[3]) +
   theme_bw() +
@@ -305,6 +306,7 @@ ggplot(data_plot, aes(x = Yr, y = q50, ymin=q025, ymax=q975)) +
   xlab('') + ylab('Biomass (mt)') +
   geom_ribbon(aes(fill = Type2, color = Type2), alpha=.4, colour = NA) + 
   geom_line(aes(color = Type2), lwd=1) +
+  coord_cartesian(ylim = c(0, 10E+06)) +
   scale_fill_manual(values = myCols) +
   scale_color_manual(values = myCols2) +
   theme_bw() +

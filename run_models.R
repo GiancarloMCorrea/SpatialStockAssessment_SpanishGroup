@@ -14,7 +14,7 @@ require(doSNOW)
 require(parallel)
 source('get_initial_files.R')
 nCores = 10
-nSim = 51:100 # sequence of replicates to run
+nSim = 1 # sequence of replicates to run
 
 # Important parameters to run models:
 Nsamp = '25'
@@ -31,7 +31,7 @@ N_moveDef = 6
 # - 4 for 4 area model with movement: 1-2, 1-4
 # Movement definitions (only used if N_moveDef > 0):
 typeMov = 2 # 1: N_moveDef = 8, 2: N_moveDef = 6 and 4-3, 3: N_moveDef = 6 and 2-3, 4: N_moveDef = 4 and no mov to 3.
-recDistAreas = c(1,2,4) # for 1A and 4A
+recDistAreas = c(1,2,3,4) # for 1A and 4A
 
 # -------------------------------------------------------------------------
 # Read data from Github:

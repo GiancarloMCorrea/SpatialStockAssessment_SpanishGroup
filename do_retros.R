@@ -27,50 +27,47 @@ dir.create(plotdir_retro)
 
 ## SS.exe must be in the model folder
 
-yper = -1:-5 ## years period for retros
+yper = 0:-4 ## years period for retros, -5 does not converge for 4A
 
 r4ss::retro(dir=mod_path, oldsubdir="", newsubdir = "retros", extras="-nohess",
            subdirstart = "retro",years = yper, overwrite = TRUE, exe = "ss")
 
-retroModels <- SSgetoutput(dirvec=file.path(mod_path, "retros",
-                                            paste("retro",yper,sep="")))
+retroModels <- SSgetoutput(dirvec=file.path(mod_path, "retros", paste("retro",yper,sep="")))
 
-save(retroModels, file=paste0(mod_path, 
-                              "/retros/retroModels.RData", sep=""))
+save(retroModels, file = paste0(mod_path, "/retros/retroModels.RData", sep=""))
 
 retroSummary <- SSsummarize(retroModels) # retro 0 is replist 1
-
-
 endyrvec <- retroSummary$endyrs + yper
 
 # R4ss plots ------------------------------------------------------------------
 
 ## Comparison plot pdf
-SSplotComparisons(retroSummary, endyrvec=endyrvec, xlim=c(1121,1256), 
-                  legendlabels=paste("Data",yper,"years"), print=FALSE, pdf=TRUE, 
-                  plotdir = plotdir_retro)
+# SSplotComparisons(retroSummary, endyrvec=endyrvec, xlim=c(1121,1256), 
+#                   legendlabels=paste("Data",yper,"years"), print=FALSE, plotdir = plotdir_retro)
+
 ## Retro recruits
-SSplotRetroRecruits(retroSummary, endyrvec=endyrvec, cohorts=1125:1256,
+png(filename = file.path(plotdir_retro, 'recr_retros.png'), width = 190, height = 160, units = 'mm', res = 500)
+SSplotRetroRecruits(retroSummary, endyrvec=endyrvec, cohorts=1125:1256, 
                     relative=TRUE, legend=FALSE)
 dev.off()
 
 # Plot biomass:
-plot_name = '4A_25_retro'
-SSplotComparisons(retroSummary, subplot = 1, legendlabels=paste("Data",yper,"years"), png = TRUE, 
-                  plotdir = 'figures', filenameprefix = plot_name)
+plot_name = 'biomass'
+SSplotComparisons(retroSummary, subplot = 1, legendlabels = paste("Data",yper,"years"), png = TRUE, 
+                  plotdir = plotdir_retro, filenameprefix = plot_name)
 
 ## Summarize the list of retroModels
 retroSummary <- r4ss::SSsummarize(retroModels)
 # 
 # ## Now Check retros Analysis with one-step ahead Forecasts
 sspar(mfrow=c(2,1),plot.cex = 0.9)
-SSplotRetro(retroSummary,forecast = F,add=T)
-SSplotRetro(retroSummary,forecast = F,add=T, xmin=1985)
-dev.print(jpeg,paste0(mod_path,"/Retroforecast_.jpg"), width = 8,
+SSplotRetro(retroSummary,forecast = F, add=T, xmin=1150)
+SSplotRetro(retroSummary,forecast = F, add=T, xmin=1150)
+dev.print(jpeg,paste0(plotdir_retro, "/Retroforecast_.jpg"), width = 8,
           height = 9, res = 300, units = "in")
 
 ## Do Hindcast with Cross-Validation of CPUE observations
-png(paste0(mod_path,"/HCxvalIndex.png"), height = 140, width = 190, units = 'mm', res = 500)
+png(paste0(plotdir_retro,"/HCxvalIndex.png"), height = 140, width = 190, units = 'mm', res = 500)
 sspar(mfrow=c(2,2),plot.cex = 0.9)
 SSplotHCxval(retroSummary,xmin=1972,add=T)
 dev.off()
@@ -78,9 +75,8 @@ dev.off()
 
 ## Use new converter fuction SSretroComps()
 hccomps = SSretroComps(retroModels)
-png(paste0(mod_path,"/HCxvalLen.png"), height = 140, width = 190, units = 'mm', res = 500)
-sspar(mfrow=c(2,2),plot.cex = 0.7)
+png(paste0(plotdir_retro,"/HCxvalLen.png"), height = 140, width = 190, units = 'mm', res = 500)
+sspar(mfrow=c(2,3),plot.cex = 0.7)
 SSplotHCxval(hccomps,add=T,subplots = "len",legendloc="topleft")
-#dev.print(jpeg,paste0(dirplot,"/HCxvalLen_.jpg"), width = 8,
-#         height = 4, res = 300, units = "in")
 dev.off()
+
