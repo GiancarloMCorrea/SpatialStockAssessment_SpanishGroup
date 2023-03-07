@@ -11,13 +11,12 @@ require(r4ss)
 require(ss3diags)
 
 ### Model path
-type_model <- '4A_25_ageS_PY_CPUEst_tags_move' ## *CHANGE name
-subfolder = 'dat_4A_1'
+type_model <- '1A_25_ageS_PY_CPUEst_tags' ## *CHANGE name
+subfolder = 'dat_1A_1'
 mod_path = paste0(saveDir, '/', file.path(type_model, subfolder))
 
 # Read model:
-ss3rep = SS_output(dir = mod_path,
-                   covar=TRUE, verbose = FALSE, printstats = FALSE)
+ss3rep = SS_output(dir = mod_path, covar=TRUE, verbose = FALSE, printstats = FALSE)
 
 # ss3diags ---------------------------------------------------------------------
 

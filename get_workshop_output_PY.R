@@ -11,7 +11,7 @@ all_years = 1001:1256
 # Background info ---------------------------------------------------------
 
 SS_ICES_team = 'SS_ICES'
-SS_ICES_status = 'prelim'
+SS_ICES_status = 'final'
 SS_ICES_model_types = 'pan and spatial'
 SS_ICES_notes = c('Configuration (pan and spatial): pseudoyear.', 
                   'Runs without hessian so CV not reported.', 
@@ -19,7 +19,7 @@ SS_ICES_notes = c('Configuration (pan and spatial): pseudoyear.',
 SS_ICES_ssb_units = 'weight'
 SS_ICES_recr_units = '1000s of fish'
 SS_ICES_F_units = 'instant apical F'
-SS_ICES_catch_units = 'numbers'
+SS_ICES_catch_units = 'biomass'
 SS_ICES_BRPS_calc = 'yes'
 SS_ICES_b0_calc = 'yes'
 SS_ICES_BRPs_type = 'Bmsy, Fmsy, MSY (global)'
@@ -36,7 +36,7 @@ SS_ICES_pan_flts_names = c('fishing_gi', 'fishing_hd', 'fishing_ll', 'fishing_ot
 
 # Spatial model results ---------------------------------------------------
 
-SS_ICES_spat_nsims = 5
+SS_ICES_spat_nsims = 100
 SS_ICES_spat_rds_num = 1
 SS_ICES_spat_nyrs = 256
 SS_ICES_spat_nareas = 4
@@ -99,7 +99,7 @@ SS_ICES_pan_catch[,non_conv_runs] = NA
 this_model = '4A_25_PY'
 df_dq = save_data$dq[save_data$dq$em == this_model, ]
 df_dq = df_dq[order(df_dq$iter, df_dq$Area),]
-non_conv_runs = unique(df_dq$iter[df_dq$grad > max_grad])
+non_conv_runs = unique(df_dq$iter[df_dq$grad > max_grad | is.nan(df_dq$R0)])
 
 SS_ICES_spat_b0 = array(df_dq$B0, dim = c(SS_ICES_spat_nareas,SS_ICES_spat_nsims))
 SS_ICES_spat_status_bio = array(df_dq$Bstatus, dim = c(SS_ICES_spat_nareas,SS_ICES_spat_nsims))

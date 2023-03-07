@@ -10,7 +10,7 @@ all_years = 1952:2015
 # Background info ---------------------------------------------------------
 
 SS_ICES_team = 'SS_ICES'
-SS_ICES_status = 'prelim'
+SS_ICES_status = 'final'
 SS_ICES_model_types = 'pan and spatial'
 SS_ICES_notes = c('Configuration (pan and spatial): year.', 
                   'Runs without hessian so CV not reported.', 
@@ -18,7 +18,7 @@ SS_ICES_notes = c('Configuration (pan and spatial): year.',
 SS_ICES_ssb_units = 'weight'
 SS_ICES_recr_units = '1000s of fish'
 SS_ICES_F_units = 'instant apical F'
-SS_ICES_catch_units = 'numbers'
+SS_ICES_catch_units = 'biomass'
 SS_ICES_BRPS_calc = 'yes'
 SS_ICES_b0_calc = 'yes'
 SS_ICES_BRPs_type = 'Bmsy, Fmsy, MSY (global)'
